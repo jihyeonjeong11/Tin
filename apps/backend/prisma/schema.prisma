@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  tins    Tin[]
+  tags    Tag[]
+  session Session[]
+  account Account[]
+
+  @@map("users")
+}
+
+model Tin {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  title     String
+  givenUpAt DateTime  @map("given_up_at") @db.Date
+  feeling   String?
+  status    TinStatus @default(pending)
+  type      TinType
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tinTags TinTag[]
+
+  @@map("tins")
+}
+
+model Tag {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  name   String
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tinTags TinTag[]
+
+  @@unique([userId, name])
+  @@map("tags")
+}
+
+model TinTag {
+  tinId String @map("tin_id")
+  tagId String @map("tag_id")
+
+  tin Tin @relation(fields: [tinId], references: [id], onDelete: Cascade)
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([tinId, tagId])
+  @@map("tin_tags")
+}
+
+model Session {
+  id        String   @id
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  token     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Account {
+  id                String    @id
+  userId            String    @map("user_id")
+  accountId         String    @map("account_id")
+  providerId        String    @map("provider_id")
+  accessToken       String?   @map("access_token")
+  refreshToken      String?   @map("refresh_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at")
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at")
+  scope             String?
+  idToken           String?   @map("id_token")
+  password          String?
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("accounts")
+}
+
+enum TinStatus {
+  pending
+  archived
+}
+
+enum TinType {
+  letting_go
+  reflection
+}

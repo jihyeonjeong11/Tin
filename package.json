@@ -1,0 +1,22 @@
+{
+  "name": "tin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "eslint": "^9.23.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "typescript": "^5.8.2"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
+    "**/*.{json,md,css}": ["prettier --write"]
+  }
+}
