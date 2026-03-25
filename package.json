@@ -4,11 +4,32 @@
   "private": true,
   "scripts": {
     "dev": "pnpm --parallel -r dev",
+    "dev:fe": "pnpm --filter @tin/frontend dev",
+    "dev:be": "pnpm --filter @tin/backend dev",
     "build": "pnpm -r build",
+    "build:fe": "pnpm --filter @tin/frontend build",
+    "build:be": "pnpm --filter @tin/backend build",
     "lint": "pnpm -r lint",
-    "test": "pnpm -r test"
+    "lint:fe": "pnpm --filter @tin/frontend lint",
+    "lint:be": "pnpm --filter @tin/backend lint",
+    "test": "pnpm -r test",
+    "test:fe": "pnpm --filter @tin/frontend test",
+    "test:be": "pnpm --filter @tin/backend test",
+    "test:e2e": "pnpm --filter @tin/frontend test:e2e",
+    "db:generate": "pnpm --filter @tin/backend db:generate",
+    "db:migrate": "pnpm --filter @tin/backend db:migrate",
+    "db:push": "pnpm --filter @tin/backend db:push",
+    "db:studio": "pnpm --filter @tin/backend db:studio",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "typecheck": "pnpm -r typecheck",
+    "typecheck:fe": "pnpm --filter @tin/frontend typecheck",
+    "typecheck:be": "pnpm --filter @tin/backend typecheck",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
     "prettier": "^3.5.3",
     "eslint": "^9.23.0",
     "husky": "^9.1.7",
@@ -16,7 +37,12 @@
     "typescript": "^5.8.2"
   },
   "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
-    "**/*.{json,md,css}": ["prettier --write"]
+    "**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,md,css}": [
+      "prettier --write"
+    ]
   }
 }

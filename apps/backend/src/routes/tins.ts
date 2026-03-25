@@ -1,22 +1,22 @@
-import { Router } from 'express'
+import { Router, type Router as ExpressRouter } from 'express'
 import { prisma } from '../lib/prisma.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { validate } from '../middleware/validate.js'
 import { CreateTinSchema, UpdateTinSchema } from '@tin/shared'
 
-const router = Router()
+const router: ExpressRouter = Router()
 
 router.use(requireAuth)
 
 // GET /api/tins
 router.get('/', async (req, res) => {
   const userId = res.locals.userId as string
-  const { status } = req.query
+  const status = req.query.status as 'pending' | 'archived' | undefined
 
   const tins = await prisma.tin.findMany({
     where: {
       userId,
-      ...(status ? { status: status as 'pending' | 'archived' } : {}),
+      ...(status ? { status } : {}),
     },
     include: { tinTags: { include: { tag: true } } },
     orderBy: { createdAt: 'desc' },
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const userId = res.locals.userId as string
   const tin = await prisma.tin.findFirst({
-    where: { id: req.params.id, userId },
+    where: { id: req.params['id'] as string, userId },
     include: { tinTags: { include: { tag: true } } },
   })
 
@@ -66,14 +66,16 @@ router.patch('/:id', validate(UpdateTinSchema), async (req, res) => {
   const userId = res.locals.userId as string
   const { tagIds, ...data } = req.body
 
-  const existing = await prisma.tin.findFirst({ where: { id: req.params.id, userId } })
+  const existing = await prisma.tin.findFirst({
+    where: { id: req.params['id'] as string, userId },
+  })
   if (!existing) {
     res.status(404).json({ error: 'Not found' })
     return
   }
 
   const tin = await prisma.tin.update({
-    where: { id: req.params.id },
+    where: { id: req.params['id'] as string },
     data: {
       ...data,
       ...(data.givenUpAt && { givenUpAt: new Date(data.givenUpAt) }),
@@ -93,14 +95,16 @@ router.patch('/:id', validate(UpdateTinSchema), async (req, res) => {
 // PATCH /api/tins/:id/archive
 router.patch('/:id/archive', async (req, res) => {
   const userId = res.locals.userId as string
-  const existing = await prisma.tin.findFirst({ where: { id: req.params.id, userId } })
+  const existing = await prisma.tin.findFirst({
+    where: { id: req.params['id'] as string, userId },
+  })
   if (!existing) {
     res.status(404).json({ error: 'Not found' })
     return
   }
 
   const tin = await prisma.tin.update({
-    where: { id: req.params.id },
+    where: { id: req.params['id'] as string },
     data: { status: 'archived' },
     include: { tinTags: { include: { tag: true } } },
   })
@@ -111,13 +115,15 @@ router.patch('/:id/archive', async (req, res) => {
 // DELETE /api/tins/:id
 router.delete('/:id', async (req, res) => {
   const userId = res.locals.userId as string
-  const existing = await prisma.tin.findFirst({ where: { id: req.params.id, userId } })
+  const existing = await prisma.tin.findFirst({
+    where: { id: req.params['id'] as string, userId },
+  })
   if (!existing) {
     res.status(404).json({ error: 'Not found' })
     return
   }
 
-  await prisma.tin.delete({ where: { id: req.params.id } })
+  await prisma.tin.delete({ where: { id: req.params['id'] as string } })
   res.status(204).send()
 })
 
@@ -132,7 +138,9 @@ function formatTin(tin: any) {
     type: tin.type,
     createdAt: tin.createdAt.toISOString(),
     updatedAt: tin.updatedAt.toISOString(),
-    tags: tin.tinTags?.map((tt: any) => ({ id: tt.tag.id, name: tt.tag.name })) ?? [],
+    tags:
+      tin.tinTags?.map((tt: any) => ({ id: tt.tag.id, name: tt.tag.name })) ??
+      [],
   }
 }
 

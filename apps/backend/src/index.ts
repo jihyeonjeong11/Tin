@@ -8,13 +8,15 @@ import { auth } from './lib/auth.js'
 import tinsRouter from './routes/tins.js'
 import tagsRouter from './routes/tags.js'
 
-const app = express()
+const app: express.Express = express()
 const PORT = process.env.PORT ?? 4000
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
-  credentials: true,
-}))
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+    credentials: true,
+  })
+)
 
 app.use(pinoHttp({ logger }))
 app.use(express.json())
