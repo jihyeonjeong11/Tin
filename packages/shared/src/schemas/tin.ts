@@ -16,7 +16,6 @@ export const TinResponseSchema = z.object({
   title: z.string(),
   givenUpAt: z.string(),
   feeling: z.string().nullable(),
-  status: z.enum(['pending', 'archived']),
   type: z.enum(['letting_go', 'reflection']),
   createdAt: z.string(),
   updatedAt: z.string(),

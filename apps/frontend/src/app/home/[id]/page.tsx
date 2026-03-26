@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/format'
-import { Pencil, Archive, ArchiveRestore, Trash2, ArrowLeft } from 'lucide-react'
-import { useTin, useArchiveTin, useRestoreTin, useDeleteTin } from '@/hooks/use-tins'
+import { Pencil, Trash2, ArrowLeft } from 'lucide-react'
+import { useTin, useDeleteTin } from '@/hooks/use-tins'
 import type { TinResponse } from '@tin/shared'
 
 export default function TinDetailPage() {
@@ -15,8 +15,6 @@ export default function TinDetailPage() {
   const router = useRouter()
 
   const { data: tin, isLoading } = useTin(id)
-  const archive = useArchiveTin()
-  const restore = useRestoreTin()
   const deleteTin = useDeleteTin()
 
   if (isLoading) return <TinDetailSkeleton />
@@ -32,11 +30,6 @@ export default function TinDetailPage() {
     )
   }
 
-  const isArchived = tin.status === 'archived'
-  const isBusy = archive.isPending || restore.isPending || deleteTin.isPending
-
-  const handleArchive = () => archive.mutate(id, { onSuccess: () => router.push('/home') })
-  const handleRestore = () => restore.mutate(id, { onSuccess: () => router.push('/home') })
   const handleDelete = () => {
     if (!confirm('정말 삭제할까요?')) return
     deleteTin.mutate(id, { onSuccess: () => router.push('/home') })
@@ -56,46 +49,26 @@ export default function TinDetailPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <TypeBadge type={tin.type} />
-            {isArchived && (
-              <Badge variant="secondary" className="text-xs">
-                흘려보냄
-              </Badge>
-            )}
-          </div>
+          <TypeBadge type={tin.type} />
           <h1 className="font-serif text-2xl text-foreground">{tin.title}</h1>
           <p className="text-sm text-muted-foreground">
-            {tin.type === 'letting_go' ? '포기한 날' : '기록한 날'} · {formatDate(tin.givenUpAt)}
+            {tin.type === 'letting_go' ? '흘려보낸 날' : '기록한 날'} · {formatDate(tin.givenUpAt)}
           </p>
         </div>
 
         {/* Actions */}
         <div className="flex shrink-0 gap-1">
-          {!isArchived && (
-            <Button variant="ghost" size="icon-sm" aria-label="수정" disabled={isBusy}>
-              <Link href={`/home/${id}/edit`}>
-                <Pencil />
-              </Link>
-            </Button>
-          )}
-          {tin.type === 'reflection' && (
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={isArchived ? handleRestore : handleArchive}
-              aria-label={isArchived ? '복구' : '아카이브'}
-              disabled={isBusy}
-            >
-              {isArchived ? <ArchiveRestore /> : <Archive />}
-            </Button>
-          )}
+          <Button variant="ghost" size="icon-sm" aria-label="수정" disabled={deleteTin.isPending}>
+            <Link href={`/home/${id}/edit`}>
+              <Pencil />
+            </Link>
+          </Button>
           <Button
             variant="ghost"
             size="icon-sm"
             onClick={handleDelete}
             aria-label="삭제"
-            disabled={isBusy}
+            disabled={deleteTin.isPending}
             className="text-destructive hover:text-destructive"
           >
             <Trash2 />

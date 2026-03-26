@@ -25,21 +25,20 @@ model User {
 }
 
 model Tin {
-  id        String    @id @default(uuid())
-  userId    String    @map("user_id")
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
   title     String
-  givenUpAt DateTime  @map("given_up_at") @db.Date
+  givenUpAt DateTime @map("given_up_at") @db.Date
   feeling   String?
-  status    TinStatus @default(pending)
   type      TinType
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tinTags TinTag[]
 
   @@index([userId])
-  @@index([userId, status])
+  @@index([userId, type])
   @@map("tins")
 }
 
@@ -100,11 +99,6 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("accounts")
-}
-
-enum TinStatus {
-  pending
-  archived
 }
 
 enum TinType {

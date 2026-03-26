@@ -7,18 +7,18 @@ import type { TinResponse, CreateTinInput, UpdateTinInput } from '@tin/shared'
 export const tinKeys = {
   all: ['tins'] as const,
   lists: () => [...tinKeys.all, 'list'] as const,
-  list: (status?: 'pending' | 'archived') => [...tinKeys.lists(), { status }] as const,
+  list: (type?: 'letting_go' | 'reflection') => [...tinKeys.lists(), { type }] as const,
   detail: (id: string) => [...tinKeys.all, 'detail', id] as const,
 }
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
 
-export function useTins(status?: 'pending' | 'archived') {
+export function useTins(type?: 'letting_go' | 'reflection') {
   return useQuery({
-    queryKey: tinKeys.list(status),
+    queryKey: tinKeys.list(type),
     queryFn: () =>
       api
-        .get<TinResponse[]>('/api/v1/tins', { params: status ? { status } : undefined })
+        .get<TinResponse[]>('/api/v1/tins', { params: type ? { type } : undefined })
         .then((r) => r.data),
   })
 }
@@ -51,38 +51,6 @@ export function useUpdateTin(id: string) {
       api.patch<TinResponse>(`/api/v1/tins/${id}`, data).then((r) => r.data),
     onSuccess: (updated) => {
       qc.setQueryData(tinKeys.detail(id), updated)
-      qc.invalidateQueries({ queryKey: tinKeys.lists() })
-    },
-  })
-}
-
-export function useArchiveTin() {
-  const qc = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) =>
-      api.patch<TinResponse>(`/api/v1/tins/${id}/archive`).then((r) => r.data),
-    onSuccess: (updated) => {
-      qc.setQueryData(tinKeys.detail(updated.id), updated)
-      qc.setQueryData(
-        tinKeys.list('pending'),
-        (old: TinResponse[] | undefined) => old?.filter((t) => t.id !== updated.id) ?? [],
-      )
-      qc.invalidateQueries({ queryKey: tinKeys.lists() })
-    },
-  })
-}
-
-export function useRestoreTin() {
-  const qc = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) =>
-      api.patch<TinResponse>(`/api/v1/tins/${id}/restore`).then((r) => r.data),
-    onSuccess: (updated) => {
-      qc.setQueryData(tinKeys.detail(updated.id), updated)
-      qc.setQueryData(
-        tinKeys.list('archived'),
-        (old: TinResponse[] | undefined) => old?.filter((t) => t.id !== updated.id) ?? [],
-      )
       qc.invalidateQueries({ queryKey: tinKeys.lists() })
     },
   })

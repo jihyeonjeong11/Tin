@@ -10,10 +10,10 @@ import { useTins } from '@/hooks/use-tins'
 import type { TinResponse } from '@tin/shared'
 import { formatDate } from '@/lib/format'
 
-type Tab = 'pending' | 'archived'
+type Tab = 'letting_go' | 'reflection'
 
 export default function HomePage() {
-  const [tab, setTab] = useState<Tab>('pending')
+  const [tab, setTab] = useState<Tab>('letting_go')
   const { data: tins = [], isLoading } = useTins(tab)
 
   return (
@@ -21,7 +21,7 @@ export default function HomePage() {
       {/* Tabs + CTA */}
       <div className="flex items-center justify-between">
         <div className="flex gap-1 rounded-lg bg-muted p-1">
-          {(['pending', 'archived'] as Tab[]).map((t) => (
+          {(['letting_go', 'reflection'] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -32,7 +32,7 @@ export default function HomePage() {
                   : 'text-muted-foreground hover:text-foreground',
               )}
             >
-              {t === 'pending' ? '보관 중' : '흘려보낸 것들'}
+              {t === 'letting_go' ? '흘려보낸 것들' : '보관 중'}
             </button>
           ))}
         </div>
@@ -103,16 +103,14 @@ function Empty({ tab }: { tab: Tab }) {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <p className="font-serif text-4xl text-foreground/20">
-        {tab === 'pending' ? '비어있어요' : '아직 없어요'}
+        {tab === 'letting_go' ? '비어있어요' : '아직 없어요'}
       </p>
       <p className="mt-3 text-sm text-muted-foreground">
-        {tab === 'pending' ? '첫 번째 기록을 남겨볼까요?' : '아카이브한 Tin이 여기 쌓입니다.'}
+        {tab === 'letting_go' ? '흘려보낸 것들이 여기 쌓입니다.' : '보관 중인 기록을 남겨볼까요?'}
       </p>
-      {tab === 'pending' && (
-        <Link href="/home/new" className={cn(buttonVariants(), 'mt-8')}>
-          새 Tin 만들기
-        </Link>
-      )}
+      <Link href="/home/new" className={cn(buttonVariants(), 'mt-8')}>
+        새 Tin 만들기
+      </Link>
     </div>
   )
 }

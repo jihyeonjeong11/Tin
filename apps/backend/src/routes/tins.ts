@@ -11,12 +11,12 @@ router.use(requireAuth)
 // GET /api/tins
 router.get('/', async (req, res) => {
   const userId = res.locals.userId as string
-  const status = req.query.status as 'pending' | 'archived' | undefined
+  const type = req.query.type as 'letting_go' | 'reflection' | undefined
 
   const tins = await prisma.tin.findMany({
     where: {
       userId,
-      ...(status ? { status } : {}),
+      ...(type ? { type } : {}),
     },
     include: { tinTags: { include: { tag: true } } },
     orderBy: { createdAt: 'desc' },
@@ -51,7 +51,6 @@ router.post('/', validate(CreateTinSchema), async (req, res) => {
       ...data,
       userId,
       givenUpAt: new Date(data.givenUpAt),
-      status: data.type === 'letting_go' ? 'archived' : 'pending',
       ...(tagIds?.length && {
         tinTags: { create: tagIds.map((tagId: string) => ({ tagId })) },
       }),
@@ -93,46 +92,6 @@ router.patch('/:id', validate(UpdateTinSchema), async (req, res) => {
   res.json(formatTin(tin))
 })
 
-// PATCH /api/tins/:id/archive
-router.patch('/:id/archive', async (req, res) => {
-  const userId = res.locals.userId as string
-  const existing = await prisma.tin.findFirst({
-    where: { id: req.params['id'] as string, userId },
-  })
-  if (!existing) {
-    res.status(404).json({ error: 'Not found' })
-    return
-  }
-
-  const tin = await prisma.tin.update({
-    where: { id: req.params['id'] as string },
-    data: { status: 'archived' },
-    include: { tinTags: { include: { tag: true } } },
-  })
-
-  res.json(formatTin(tin))
-})
-
-// PATCH /api/tins/:id/restore
-router.patch('/:id/restore', async (req, res) => {
-  const userId = res.locals.userId as string
-  const existing = await prisma.tin.findFirst({
-    where: { id: req.params['id'] as string, userId },
-  })
-  if (!existing) {
-    res.status(404).json({ error: 'Not found' })
-    return
-  }
-
-  const tin = await prisma.tin.update({
-    where: { id: req.params['id'] as string },
-    data: { status: 'pending' },
-    include: { tinTags: { include: { tag: true } } },
-  })
-
-  res.json(formatTin(tin))
-})
-
 // DELETE /api/tins/:id
 router.delete('/:id', async (req, res) => {
   const userId = res.locals.userId as string
@@ -155,7 +114,6 @@ function formatTin(tin: any) {
     title: tin.title,
     givenUpAt: tin.givenUpAt.toISOString().split('T')[0],
     feeling: tin.feeling,
-    status: tin.status,
     type: tin.type,
     createdAt: tin.createdAt.toISOString(),
     updatedAt: tin.updatedAt.toISOString(),
