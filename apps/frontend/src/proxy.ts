@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 import { getSessionCookie } from 'better-auth/cookies'
 
 const PUBLIC_PATHS = ['/', '/login', '/register']
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+export function proxy(request: Request) {
+  const { pathname } = new URL(request.url)
   const isPublic = PUBLIC_PATHS.some((p) => pathname === p)
   const session = getSessionCookie(request)
 
