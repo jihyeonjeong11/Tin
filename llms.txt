@@ -1,0 +1,34 @@
+### resources
+
+## 프로젝트 구조
+- [pnpm workspaces](https://pnpm.io/workspaces) — 모노레포 워크스페이스 설정 참고
+
+## 프론트엔드
+- [Next.js 15 docs](https://nextjs.org/docs) — App Router, 라우팅, 서버 컴포넌트 참고
+- [TailwindCSS v4 docs](https://tailwindcss.com/docs) — 유틸리티 클래스, @theme, CSS 변수 참고
+- [shadcn/ui docs](https://ui.shadcn.com) — 컴포넌트 설치 및 커스터마이즈 참고
+- [TanStack Query v5 docs](https://tanstack.com/query/latest/docs/framework/react/overview) — 서버 상태 관리, useQuery, useMutation 참고
+- [React Hook Form docs](https://react-hook-form.com) — 폼 상태 관리, validation 참고
+- [Zod docs](https://zod.dev) — 스키마 정의 및 validation 참고
+- [axios docs](https://axios-http.com/docs/intro) — HTTP 클라이언트, 인터셉터 참고
+- [date-fns docs](https://date-fns.org/docs/Getting-Started) — 날짜 포맷, 계산 참고
+- [lucide-react icons](https://lucide.dev/icons) — 아이콘 목록 참고
+
+## 백엔드
+- [Express docs](https://expressjs.com/en/4x/api.html) — 라우터, 미들웨어 참고
+- [Express security best practices](https://expressjs.com/en/advanced/best-practice-security.html) — helmet, rate limiting 등 보안 설정 참고
+- [Prisma docs](https://www.prisma.io/docs) — 스키마, 마이그레이션, 쿼리 참고
+- [Better-Auth docs](https://www.better-auth.com/docs/introduction) — 인증 설정, 세션, Prisma 어댑터 참고
+- [pino docs](https://getpino.io) — 로거 설정, transport 참고
+
+## 인증
+- [Better-Auth React client](https://www.better-auth.com/docs/integrations/next-js) — Next.js 클라이언트 연동 참고
+
+## 테스트
+- [Vitest docs](https://vitest.dev/guide) — 유닛 테스트 설정 및 작성 참고
+- [Testing Library docs](https://testing-library.com/docs/react-testing-library/intro) — React 컴포넌트 테스트 참고
+- [Playwright docs](https://playwright.dev/docs/intro) — E2E 테스트 작성 참고
+
+## 인프라
+- [Docker Compose docs](https://docs.docker.com/compose) — 서비스 정의, 볼륨, 헬스체크 참고
+- [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free) — 배포 대상 인프라 참고

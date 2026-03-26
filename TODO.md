@@ -17,6 +17,7 @@
 - [x] `.gitignore`
 - [x] `postinstall` 자동화 (shared 빌드 + prisma generate)
 - [x] 루트 스크립트 정의 (dev, build, lint, typecheck, test, db:\*)
+- [ ] README.md 작성 (프로젝트 소개, 실행 방법)
 
 ### 테스트 인프라
 
@@ -37,6 +38,10 @@
 - [x] Prisma 설치 및 client 설정
 - [x] `.env.example` 작성
 - [ ] `.env` 파일 생성 (BETTER_AUTH_SECRET 랜덤값 포함)
+- [ ] 환경변수 런타임 Zod 검증 (서버 시작 시 필수 env 누락 체크)
+- [ ] `helmet` 설치 (Express 보안 헤더 — XSS, clickjacking 등)
+- [ ] Rate limiting 설치 (`express-rate-limit` — 로그인 brute force 방어)
+- [ ] Seed 스크립트 작성 (개발용 더미 데이터)
 
 ### 프론트엔드 셋업
 
@@ -49,6 +54,8 @@
 - [x] 컬러 스킴 — Quiet Paper 팔레트 (globals.css, 라이트/다크)
 - [x] `.env.example` 작성
 - [ ] `.env.local` 파일 생성
+- [ ] 에러 바운더리 (React 렌더링 에러 처리)
+- [ ] SEO / OG 태그 설정 (layout.tsx metadata 확장)
 
 ### Shared 패키지
 
@@ -128,5 +135,6 @@
 - [ ] Oracle Cloud 인프라 셋업
 - [ ] 프로덕션 환경변수 정리
 - [ ] Docker 프로덕션 이미지 (멀티스테이지 빌드)
+- [ ] Graceful shutdown 처리 (SIGTERM — 요청 마무리 후 DB 연결 종료)
 - [ ] CI/CD (GitHub Actions)
 - [ ] 도메인 + HTTPS 설정
