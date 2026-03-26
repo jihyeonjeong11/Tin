@@ -5,20 +5,21 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
+import { formatDate } from '@/lib/format'
 import { Pencil, Archive, ArchiveRestore, Trash2, ArrowLeft } from 'lucide-react'
+import { useTin, useArchiveTin, useRestoreTin, useDeleteTin } from '@/hooks/use-tins'
 import type { TinResponse } from '@tin/shared'
 
 export default function TinDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
 
-  // TODO: useTin(id)
-  const tin: TinResponse | null = null
-  const isLoading = false
+  const { data: tin, isLoading } = useTin(id)
+  const archive = useArchiveTin()
+  const restore = useRestoreTin()
+  const deleteTin = useDeleteTin()
 
-  if (isLoading) {
-    return <TinDetailSkeleton />
-  }
+  if (isLoading) return <TinDetailSkeleton />
 
   if (!tin) {
     return (
@@ -32,13 +33,13 @@ export default function TinDetailPage() {
   }
 
   const isArchived = tin.status === 'archived'
+  const isBusy = archive.isPending || restore.isPending || deleteTin.isPending
 
-  const handleArchive = async () => {
-    // TODO: useArchiveTin / useRestoreTin
-  }
-
-  const handleDelete = async () => {
-    // TODO: useDeleteTin — confirm before delete
+  const handleArchive = () => archive.mutate(id, { onSuccess: () => router.push('/home') })
+  const handleRestore = () => restore.mutate(id, { onSuccess: () => router.push('/home') })
+  const handleDelete = () => {
+    if (!confirm('정말 삭제할까요?')) return
+    deleteTin.mutate(id, { onSuccess: () => router.push('/home') })
   }
 
   return (
@@ -72,7 +73,7 @@ export default function TinDetailPage() {
         {/* Actions */}
         <div className="flex shrink-0 gap-1">
           {!isArchived && (
-            <Button variant="ghost" size="icon-sm" aria-label="수정">
+            <Button variant="ghost" size="icon-sm" aria-label="수정" disabled={isBusy}>
               <Link href={`/home/${id}/edit`}>
                 <Pencil />
               </Link>
@@ -81,8 +82,9 @@ export default function TinDetailPage() {
           <Button
             variant="ghost"
             size="icon-sm"
-            onClick={handleArchive}
+            onClick={isArchived ? handleRestore : handleArchive}
             aria-label={isArchived ? '복구' : '아카이브'}
+            disabled={isBusy}
           >
             {isArchived ? <ArchiveRestore /> : <Archive />}
           </Button>
@@ -91,6 +93,7 @@ export default function TinDetailPage() {
             size="icon-sm"
             onClick={handleDelete}
             aria-label="삭제"
+            disabled={isBusy}
             className="text-destructive hover:text-destructive"
           >
             <Trash2 />
@@ -117,7 +120,6 @@ export default function TinDetailPage() {
       )}
 
       <div className="mt-8 h-px w-full bg-border/50" />
-
       <p className="mt-4 text-xs text-muted-foreground/50">{formatDate(tin.createdAt)} 에 기록됨</p>
     </div>
   )
@@ -138,14 +140,6 @@ function TypeBadge({ type }: { type: TinResponse['type'] }) {
       {type === 'letting_go' ? '놓아버림' : '돌아봄'}
     </span>
   )
-}
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
 }
 
 function TinDetailSkeleton() {

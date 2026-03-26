@@ -112,6 +112,26 @@ router.patch('/:id/archive', async (req, res) => {
   res.json(formatTin(tin))
 })
 
+// PATCH /api/tins/:id/restore
+router.patch('/:id/restore', async (req, res) => {
+  const userId = res.locals.userId as string
+  const existing = await prisma.tin.findFirst({
+    where: { id: req.params['id'] as string, userId },
+  })
+  if (!existing) {
+    res.status(404).json({ error: 'Not found' })
+    return
+  }
+
+  const tin = await prisma.tin.update({
+    where: { id: req.params['id'] as string },
+    data: { status: 'pending' },
+    include: { tinTags: { include: { tag: true } } },
+  })
+
+  res.json(formatTin(tin))
+})
+
 // DELETE /api/tins/:id
 router.delete('/:id', async (req, res) => {
   const userId = res.locals.userId as string
@@ -138,9 +158,7 @@ function formatTin(tin: any) {
     type: tin.type,
     createdAt: tin.createdAt.toISOString(),
     updatedAt: tin.updatedAt.toISOString(),
-    tags:
-      tin.tinTags?.map((tt: any) => ({ id: tt.tag.id, name: tt.tag.name })) ??
-      [],
+    tags: tin.tinTags?.map((tt: any) => ({ id: tt.tag.id, name: tt.tag.name })) ?? [],
   }
 }
 

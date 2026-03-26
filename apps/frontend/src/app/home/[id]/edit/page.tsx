@@ -4,20 +4,22 @@ import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UpdateTinSchema, type UpdateTinInput, type TinResponse } from '@tin/shared'
+import { UpdateTinSchema, type UpdateTinInput } from '@tin/shared'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useTin, useUpdateTin } from '@/hooks/use-tins'
+import { useTags } from '@/hooks/use-tags'
 
 export default function EditTinPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
 
-  // TODO: useTin(id)
-  const tin: TinResponse | null = null
-  const isLoading = false
+  const { data: tin, isLoading } = useTin(id)
+  const { data: tags = [] } = useTags()
+  const updateTin = useUpdateTin(id)
 
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([])
 
@@ -44,8 +46,8 @@ export default function EditTinPage() {
     setValue('tagIds', tagIds)
   }, [tin, reset, setValue])
 
-  const onSubmit = async (_data: UpdateTinInput) => {
-    // TODO: useUpdateTin mutation
+  const onSubmit = async (data: UpdateTinInput) => {
+    await updateTin.mutateAsync({ ...data, tagIds: selectedTagIds })
     router.push(`/home/${id}`)
   }
 
@@ -57,9 +59,6 @@ export default function EditTinPage() {
     })
   }
 
-  // TODO: useTags()
-  const tags: { id: string; name: string }[] = []
-
   if (isLoading) {
     return (
       <div className="mx-auto max-w-xl animate-pulse space-y-4">
@@ -67,6 +66,14 @@ export default function EditTinPage() {
         <div className="h-10 w-full rounded bg-muted" />
         <div className="h-10 w-full rounded bg-muted" />
         <div className="h-28 w-full rounded bg-muted" />
+      </div>
+    )
+  }
+
+  if (!tin) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <p className="font-serif text-2xl text-foreground/40">찾을 수 없어요</p>
       </div>
     )
   }
@@ -93,7 +100,9 @@ export default function EditTinPage() {
 
         {/* Date */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">날짜</label>
+          <label className="text-sm font-medium text-foreground">
+            {tin.type === 'letting_go' ? '포기한 날짜' : '기록 날짜'}
+          </label>
           <Input {...register('givenUpAt')} type="date" aria-invalid={!!errors.givenUpAt} />
           {errors.givenUpAt && (
             <p className="text-xs text-destructive">{errors.givenUpAt.message}</p>
@@ -135,8 +144,8 @@ export default function EditTinPage() {
           <Button type="button" variant="ghost" onClick={() => router.back()}>
             취소
           </Button>
-          <Button type="submit" disabled={isSubmitting || !isDirty}>
-            {isSubmitting ? '저장 중…' : '저장'}
+          <Button type="submit" disabled={isSubmitting || updateTin.isPending || !isDirty}>
+            {updateTin.isPending ? '저장 중…' : '저장'}
           </Button>
         </div>
       </form>

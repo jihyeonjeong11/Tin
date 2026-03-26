@@ -8,30 +8,30 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react'
 import Link from 'next/link'
+import { useTags, useCreateTag, useDeleteTag } from '@/hooks/use-tags'
 
 export default function TagsPage() {
-  // TODO: useTags(), useCreateTag(), useDeleteTag()
-  const tags: { id: string; name: string }[] = []
+  const { data: tags = [], isLoading } = useTags()
+  const createTag = useCreateTag()
+  const deleteTag = useDeleteTag()
   const [isAdding, setIsAdding] = useState(false)
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<CreateTagInput>({
     resolver: zodResolver(CreateTagSchema),
   })
 
-  const onSubmit = async (_data: CreateTagInput) => {
-    // TODO: useCreateTag mutation
+  const onSubmit = async (data: CreateTagInput) => {
+    await createTag.mutateAsync(data)
     reset()
     setIsAdding(false)
   }
 
-  const handleDelete = async (_id: string) => {
-    // TODO: useDeleteTag mutation
-  }
+  const handleDelete = (id: string) => deleteTag.mutate(id)
 
   return (
     <div className="mx-auto max-w-md">
@@ -64,7 +64,7 @@ export default function TagsPage() {
             />
             {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
           </div>
-          <Button type="submit" size="default" disabled={isSubmitting}>
+          <Button type="submit" disabled={createTag.isPending}>
             추가
           </Button>
           <Button
@@ -82,7 +82,11 @@ export default function TagsPage() {
 
       {/* Tag list */}
       <ul className="mt-6 flex flex-col divide-y divide-border">
-        {tags.length === 0 ? (
+        {isLoading ? (
+          <li className="py-12 text-center">
+            <div className="mx-auto h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </li>
+        ) : tags.length === 0 ? (
           <li className="py-12 text-center text-sm text-muted-foreground">아직 태그가 없어요.</li>
         ) : (
           tags.map((tag) => (
@@ -92,6 +96,7 @@ export default function TagsPage() {
                 variant="ghost"
                 size="icon-sm"
                 onClick={() => handleDelete(tag.id)}
+                disabled={deleteTag.isPending}
                 aria-label="태그 삭제"
                 className="text-muted-foreground hover:text-destructive"
               >

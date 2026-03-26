@@ -10,6 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { Archive, Feather } from 'lucide-react'
+import { useCreateTin } from '@/hooks/use-tins'
+import { useTags } from '@/hooks/use-tags'
 
 type TinType = 'letting_go' | 'reflection'
 
@@ -17,6 +19,9 @@ export default function NewTinPage() {
   const router = useRouter()
   const [tinType, setTinType] = useState<TinType | null>(null)
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([])
+
+  const createTin = useCreateTin()
+  const { data: tags = [] } = useTags()
 
   const {
     register,
@@ -27,8 +32,8 @@ export default function NewTinPage() {
     resolver: zodResolver(CreateTinSchema),
   })
 
-  const onSubmit = async (_data: CreateTinInput) => {
-    // TODO: useCreateTin mutation
+  const onSubmit = async (data: CreateTinInput) => {
+    await createTin.mutateAsync({ ...data, tagIds: selectedTagIds })
     router.push('/home')
   }
 
@@ -44,9 +49,6 @@ export default function NewTinPage() {
       return next
     })
   }
-
-  // TODO: useTags()
-  const tags: { id: string; name: string }[] = []
 
   return (
     <div className="mx-auto max-w-xl">
@@ -134,8 +136,8 @@ export default function NewTinPage() {
           <Button type="button" variant="ghost" onClick={() => router.back()}>
             취소
           </Button>
-          <Button type="submit" disabled={isSubmitting || !tinType}>
-            {isSubmitting ? '저장 중…' : '미관으로 남기기'}
+          <Button type="submit" disabled={isSubmitting || createTin.isPending || !tinType}>
+            {createTin.isPending ? '저장 중…' : '미관으로 남기기'}
           </Button>
         </div>
       </form>

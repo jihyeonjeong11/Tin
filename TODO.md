@@ -115,27 +115,30 @@
 
 ### API 레이어 (TanStack Query 훅)
 
-- [ ] `useTins` — 목록 조회
-- [ ] `useCreateTin` — 생성
-- [ ] `useUpdateTin` — 수정
-- [ ] `useArchiveTin` — 아카이브
-- [ ] `useDeleteTin` — 삭제
-- [ ] `useTags` — 태그 목록
-- [ ] `useCreateTag` — 태그 생성
+- [x] `useTins` — 목록 조회
+- [x] `useTin` — 단건 조회
+- [x] `useCreateTin` — 생성
+- [x] `useUpdateTin` — 수정
+- [x] `useArchiveTin` — 아카이브
+- [x] `useRestoreTin` — 아카이브 복구
+- [x] `useDeleteTin` — 삭제
+- [x] `useTags` — 태그 목록
+- [x] `useCreateTag` — 태그 생성
+- [x] `useDeleteTag` — 태그 삭제
 
 ### Tin CRUD UI
 
-- [ ] 홈/목록 페이지 (상태 필터: pending / archived)
-- [ ] Tin 카드 컴포넌트
-- [ ] Tin 작성 폼 (제목, 날짜, 감정, 타입, 태그)
-- [ ] Tin 수정
-- [ ] Tin 아카이브
-- [ ] Tin 삭제
+- [x] 홈/목록 페이지 (상태 필터: pending / archived)
+- [x] Tin 카드 컴포넌트
+- [x] Tin 작성 폼 (제목, 날짜, 감정, 타입, 태그)
+- [x] Tin 수정
+- [x] Tin 아카이브 / 복구
+- [x] Tin 삭제
 
 ### 태그
 
-- [ ] 태그 생성/삭제 UI
-- [ ] Tin 폼에서 태그 선택/연결
+- [x] 태그 생성/삭제 UI
+- [x] Tin 폼에서 태그 선택/연결
 
 ---
 
