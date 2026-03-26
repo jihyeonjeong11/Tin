@@ -137,7 +137,11 @@ export default function NewTinPage() {
             취소
           </Button>
           <Button type="submit" disabled={isSubmitting || createTin.isPending || !tinType}>
-            {createTin.isPending ? '저장 중…' : '미관으로 남기기'}
+            {createTin.isPending
+              ? '저장 중…'
+              : tinType === 'letting_go'
+                ? '흘려보내기'
+                : '미완으로 남기기'}
           </Button>
         </div>
       </form>

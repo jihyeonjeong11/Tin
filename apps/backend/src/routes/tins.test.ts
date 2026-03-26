@@ -39,7 +39,7 @@ const tinInDb = {
   title: '개발 공부 포기',
   givenUpAt: new Date('2026-01-15'),
   feeling: '힘들었지만 의미 있었다',
-  status: 'pending',
+  status: 'archived',
   type: 'letting_go',
   createdAt: new Date('2026-01-20T00:00:00.000Z'),
   updatedAt: new Date('2026-01-20T00:00:00.000Z'),
@@ -72,7 +72,7 @@ describe('Tins API', () => {
 
       expect(res.status).toBe(201)
       expect(res.body.type).toBe('letting_go')
-      expect(res.body.status).toBe('pending') // 미완으로 남기기 기본값
+      expect(res.body.status).toBe('archived') // letting_go는 생성 즉시 흘려보냄
       expect(res.body.title).toBe('개발 공부 포기')
     })
 

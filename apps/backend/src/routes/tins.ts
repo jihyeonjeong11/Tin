@@ -51,6 +51,7 @@ router.post('/', validate(CreateTinSchema), async (req, res) => {
       ...data,
       userId,
       givenUpAt: new Date(data.givenUpAt),
+      status: data.type === 'letting_go' ? 'archived' : 'pending',
       ...(tagIds?.length && {
         tinTags: { create: tagIds.map((tagId: string) => ({ tagId })) },
       }),
