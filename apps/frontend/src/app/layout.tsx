@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={cn(inter.variable, lora.variable)}>
+    <html lang="ko" className={cn(inter.variable, lora.variable)} suppressHydrationWarning>
       <body>
         <ErrorBoundary>
           <Providers>{children}</Providers>
