@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/lib/button-variants'
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, BookOpen, Archive, Feather } from 'lucide-react'
 import { cn } from '@/lib/utils'
