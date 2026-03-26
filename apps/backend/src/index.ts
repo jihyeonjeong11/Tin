@@ -1,5 +1,4 @@
-import './lib/env.js' // env 검증 — 가장 먼저 실행
-import 'dotenv/config'
+import './lib/env.js' // dotenv 로드 + env 검증
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
