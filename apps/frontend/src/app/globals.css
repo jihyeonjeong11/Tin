@@ -1,1 +1,185 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Quiet Paper Design System ─────────────────────────────────────── */
+
+@theme inline {
+  /* fonts */
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+
+  /* shadcn color bridge */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* radius scale */
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-pill: 9999px;
+
+  /* tin status colors */
+  --color-status-letting-go: var(--status-letting-go);
+  --color-status-reflection: var(--status-reflection);
+  --color-status-pending: var(--status-pending);
+  --color-status-archived: var(--status-archived);
+}
+
+/* ─── Light Mode ─────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.5rem;
+
+  /* page */
+  --background: oklch(97.5% 0.008 75); /* #FAF7F2 warm off-white */
+  --foreground: oklch(16% 0.01 55); /* #1E1B18 deep ink */
+
+  /* card / surface */
+  --card: oklch(95% 0.01 75); /* #F3EEE6 */
+  --card-foreground: oklch(16% 0.01 55);
+
+  /* popover */
+  --popover: oklch(95% 0.01 75);
+  --popover-foreground: oklch(16% 0.01 55);
+
+  /* primary = accent (warm sepia) */
+  --primary: oklch(52% 0.065 55); /* #A0785A */
+  --primary-foreground: oklch(98% 0.005 75);
+
+  /* secondary = surface-raised */
+  --secondary: oklch(91% 0.012 75); /* #EDE6DA */
+  --secondary-foreground: oklch(30% 0.015 55);
+
+  /* muted */
+  --muted: oklch(91% 0.012 75);
+  --muted-foreground: oklch(55% 0.015 55); /* #6B6358 */
+
+  /* accent subtle */
+  --accent: oklch(93% 0.02 60); /* #F0E6DC */
+  --accent-foreground: oklch(52% 0.065 55);
+
+  /* destructive */
+  --destructive: oklch(55% 0.18 25);
+
+  /* border / input */
+  --border: oklch(87% 0.015 75); /* #DDD6CC */
+  --input: oklch(87% 0.015 75);
+  --ring: oklch(52% 0.065 55);
+
+  /* tin status */
+  --status-letting-go: oklch(93% 0.02 60); /* accent-subtle bg */
+  --status-reflection: oklch(95% 0.01 75); /* surface bg */
+  --status-pending: oklch(52% 0.065 55); /* accent (left border) */
+  --status-archived: oklch(70% 0.01 55); /* muted */
+}
+
+/* ─── Dark Mode ──────────────────────────────────────────────────────── */
+.dark {
+  /* page */
+  --background: oklch(14% 0.012 55); /* #1A1714 */
+  --foreground: oklch(93% 0.008 75); /* #F0EBE3 */
+
+  /* card */
+  --card: oklch(18% 0.012 55); /* #231F1B */
+  --card-foreground: oklch(93% 0.008 75);
+
+  /* popover */
+  --popover: oklch(18% 0.012 55);
+  --popover-foreground: oklch(93% 0.008 75);
+
+  /* primary */
+  --primary: oklch(68% 0.065 55); /* #C49A78 */
+  --primary-foreground: oklch(14% 0.012 55);
+
+  /* secondary */
+  --secondary: oklch(22% 0.012 55); /* #2C2722 */
+  --secondary-foreground: oklch(80% 0.008 75);
+
+  /* muted */
+  --muted: oklch(22% 0.012 55);
+  --muted-foreground: oklch(60% 0.01 55); /* #9A9088 */
+
+  /* accent subtle */
+  --accent: oklch(20% 0.018 50); /* #2E2218 */
+  --accent-foreground: oklch(68% 0.065 55);
+
+  /* destructive */
+  --destructive: oklch(65% 0.18 25);
+
+  /* border / input */
+  --border: oklch(27% 0.015 55); /* #3D3830 */
+  --input: oklch(27% 0.015 55);
+  --ring: oklch(68% 0.065 55);
+
+  /* tin status */
+  --status-letting-go: oklch(20% 0.018 50);
+  --status-reflection: oklch(18% 0.012 55);
+  --status-pending: oklch(68% 0.065 55);
+  --status-archived: oklch(35% 0.01 55);
+}
+
+/* ─── Base Layer ─────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    line-height: 1.75;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+    line-height: 1.3;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-medium;
+    line-height: 1.4;
+  }
+}
+
+/* ─── Tin Status Utilities ───────────────────────────────────────────── */
+@layer utilities {
+  .tin-letting-go {
+    background-color: var(--status-letting-go);
+    color: var(--muted-foreground);
+  }
+
+  .tin-reflection {
+    background-color: var(--status-reflection);
+  }
+
+  .tin-pending {
+    border-left: 3px solid var(--status-pending);
+  }
+
+  .tin-archived {
+    opacity: 0.5;
+  }
+}

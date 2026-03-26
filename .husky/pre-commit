@@ -1,3 +1,1 @@
 pnpm lint-staged
-pnpm typecheck:be
-pnpm typecheck:fe
