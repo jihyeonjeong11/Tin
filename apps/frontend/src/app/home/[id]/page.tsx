@@ -79,15 +79,17 @@ export default function TinDetailPage() {
               </Link>
             </Button>
           )}
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={isArchived ? handleRestore : handleArchive}
-            aria-label={isArchived ? '복구' : '아카이브'}
-            disabled={isBusy}
-          >
-            {isArchived ? <ArchiveRestore /> : <Archive />}
-          </Button>
+          {tin.type === 'reflection' && (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={isArchived ? handleRestore : handleArchive}
+              aria-label={isArchived ? '복구' : '아카이브'}
+              disabled={isBusy}
+            >
+              {isArchived ? <ArchiveRestore /> : <Archive />}
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon-sm"
