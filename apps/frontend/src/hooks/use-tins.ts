@@ -63,6 +63,10 @@ export function useArchiveTin() {
       api.patch<TinResponse>(`/api/v1/tins/${id}/archive`).then((r) => r.data),
     onSuccess: (updated) => {
       qc.setQueryData(tinKeys.detail(updated.id), updated)
+      qc.setQueryData(
+        tinKeys.list('pending'),
+        (old: TinResponse[] | undefined) => old?.filter((t) => t.id !== updated.id) ?? [],
+      )
       qc.invalidateQueries({ queryKey: tinKeys.lists() })
     },
   })
@@ -75,6 +79,10 @@ export function useRestoreTin() {
       api.patch<TinResponse>(`/api/v1/tins/${id}/restore`).then((r) => r.data),
     onSuccess: (updated) => {
       qc.setQueryData(tinKeys.detail(updated.id), updated)
+      qc.setQueryData(
+        tinKeys.list('archived'),
+        (old: TinResponse[] | undefined) => old?.filter((t) => t.id !== updated.id) ?? [],
+      )
       qc.invalidateQueries({ queryKey: tinKeys.lists() })
     },
   })
