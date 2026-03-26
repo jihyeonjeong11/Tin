@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { authClient } from '@/lib/auth-client'
-import { LogOut, Tag } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -28,13 +28,6 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
             <span className="hidden text-sm text-muted-foreground sm:block mr-2">
               {session?.user.name}
             </span>
-            <Link
-              href="/home/tags"
-              className="inline-flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              aria-label="태그 관리"
-            >
-              <Tag className="size-4" />
-            </Link>
             <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="로그아웃">
               <LogOut />
