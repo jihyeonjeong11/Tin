@@ -1,0 +1,125 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { RegisterSchema, type RegisterInput } from '@tin/shared'
+import { authClient } from '@/lib/auth-client'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
+
+export default function RegisterPage() {
+  const router = useRouter()
+  const [serverError, setServerError] = useState<string | null>(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(RegisterSchema),
+  })
+
+  const onSubmit = async (data: RegisterInput) => {
+    setServerError(null)
+    const result = await authClient.signUp.email({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    })
+    if (result.error) {
+      setServerError(result.error.message ?? '회원가입에 실패했습니다.')
+      return
+    }
+    router.push('/home')
+  }
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center px-6">
+      <div className="w-full max-w-sm">
+        {/* Logo */}
+        <Link href="/" className="mb-10 block text-center font-serif text-2xl text-foreground">
+          Tin
+        </Link>
+
+        <h1 className="mb-1 text-center font-serif text-2xl text-foreground">계정 만들기</h1>
+        <p className="mb-8 text-center text-sm text-muted-foreground">
+          기록을 시작할 준비가 됐나요?
+        </p>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+          <Field label="이름" error={errors.name?.message}>
+            <Input
+              {...register('name')}
+              placeholder="홍길동"
+              aria-invalid={!!errors.name}
+              autoComplete="name"
+            />
+          </Field>
+
+          <Field label="이메일" error={errors.email?.message}>
+            <Input
+              {...register('email')}
+              type="email"
+              placeholder="you@example.com"
+              aria-invalid={!!errors.email}
+              autoComplete="email"
+            />
+          </Field>
+
+          <Field label="비밀번호" error={errors.password?.message}>
+            <Input
+              {...register('password')}
+              type="password"
+              placeholder="8자 이상"
+              aria-invalid={!!errors.password}
+              autoComplete="new-password"
+            />
+          </Field>
+
+          {serverError && (
+            <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {serverError}
+            </p>
+          )}
+
+          <Button type="submit" size="lg" disabled={isSubmitting} className="mt-2 w-full">
+            {isSubmitting ? '가입 중…' : '시작하기'}
+          </Button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          이미 계정이 있으신가요?{' '}
+          <Link href="/login" className="text-foreground underline-offset-4 hover:underline">
+            로그인
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// ─── Field ────────────────────────────────────────────────────────────────────
+
+function Field({
+  label,
+  error,
+  children,
+}: {
+  label: string
+  error?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className={cn('text-sm font-medium', error ? 'text-destructive' : 'text-foreground')}>
+        {label}
+      </label>
+      {children}
+      {error && <p className="text-xs text-destructive">{error}</p>}
+    </div>
+  )
+}
