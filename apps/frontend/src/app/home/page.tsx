@@ -1,55 +1,72 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { Button } from '@/components/ui/button'
-import { authClient } from '@/lib/auth-client'
-import { LogOut } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { buttonVariants } from '@/lib/button-variants'
+import { Plus } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
+type Tab = 'pending' | 'archived'
 
 export default function HomePage() {
-  const router = useRouter()
-  const { data: session, isPending } = authClient.useSession()
+  const [tab, setTab] = useState<Tab>('pending')
 
-  const handleSignOut = async () => {
-    await authClient.signOut()
-    router.push('/')
-    router.refresh()
-  }
-
-  if (isPending) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-      </div>
-    )
-  }
+  // TODO: useTins({ status: tab })
+  const tins: never[] = []
+  const isEmpty = tins.length === 0
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/50 bg-background/80 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
-          <span className="font-serif text-lg text-foreground">Tin</span>
-          <div className="flex items-center gap-2">
-            <span className="hidden text-sm text-muted-foreground sm:block">
-              {session?.user.name}
-            </span>
-            <ThemeToggle />
-            <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="로그아웃">
-              <LogOut />
-            </Button>
-          </div>
+    <div>
+      {/* Tabs + CTA */}
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1 rounded-lg bg-muted p-1">
+          {(['pending', 'archived'] as Tab[]).map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={cn(
+                'rounded-md px-3 py-1.5 text-sm transition-colors',
+                tab === t
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground',
+              )}
+            >
+              {t === 'pending' ? '보관 중' : '흘려보낸 것들'}
+            </button>
+          ))}
         </div>
-      </header>
 
-      {/* Main */}
-      <main className="mx-auto max-w-4xl px-6 py-12">
-        <div className="flex flex-col items-center justify-center py-24 text-center">
-          <p className="font-serif text-4xl text-foreground/20">비어있어요</p>
-          <p className="mt-3 text-sm text-muted-foreground">첫 번째 기록을 남겨볼까요?</p>
-          <Button className="mt-8">새 Tin 만들기</Button>
-        </div>
-      </main>
+        <Link href="/home/new" className={cn(buttonVariants({ size: 'sm' }), 'gap-1.5')}>
+          <Plus className="size-3.5" />새 Tin
+        </Link>
+      </div>
+
+      {/* List */}
+      <div className="mt-6">
+        {isEmpty ? (
+          <Empty tab={tab} />
+        ) : (
+          <div className="flex flex-col gap-3">{/* TinCard list — coming with API hooks */}</div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function Empty({ tab }: { tab: Tab }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-24 text-center">
+      <p className="font-serif text-4xl text-foreground/20">
+        {tab === 'pending' ? '비어있어요' : '아직 없어요'}
+      </p>
+      <p className="mt-3 text-sm text-muted-foreground">
+        {tab === 'pending' ? '첫 번째 기록을 남겨볼까요?' : '아카이브한 Tin이 여기 쌓입니다.'}
+      </p>
+      {tab === 'pending' && (
+        <Link href="/home/new" className={cn(buttonVariants(), 'mt-8')}>
+          새 Tin 만들기
+        </Link>
+      )}
     </div>
   )
 }
