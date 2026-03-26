@@ -87,7 +87,7 @@
 - [x] `TinType` enum (letting_go / reflection)
 - [x] Docker Compose — PostgreSQL 16
 - [x] Prisma User 모델 Better-Auth 스펙 맞춤 (name, emailVerified, image, updatedAt / passwordHash 제거)
-- [x] Redis docker-compose에 추가
+- ~~Redis~~ — 사용 안 함 (PostgreSQL만으로 충분)
 - [x] DB 인덱스 추가 (`tins.userId`, `tins.status`, `tags.userId`)
 - [ ] DB 마이그레이션 최초 실행 (`pnpm docker:up && pnpm db:migrate`)
 

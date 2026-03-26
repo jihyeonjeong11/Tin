@@ -7,7 +7,7 @@
 |          | 기술                                                               |
 | -------- | ------------------------------------------------------------------ |
 | Frontend | Next.js 15, TailwindCSS v4, shadcn/ui, TanStack Query, Better-Auth |
-| Backend  | Express, Prisma, PostgreSQL, Redis, Better-Auth                    |
+| Backend  | Express, Prisma, PostgreSQL, Better-Auth                           |
 | Shared   | Zod 스키마                                                         |
 | Infra    | Docker Compose, Oracle Cloud (예정)                                |
 
@@ -54,7 +54,7 @@ pnpm typecheck    # TypeScript 검사
 pnpm test         # 유닛 테스트
 pnpm test:e2e     # E2E 테스트
 
-pnpm docker:up    # PostgreSQL + Redis 실행
+pnpm docker:up    # PostgreSQL 실행
 pnpm docker:down  # 컨테이너 종료
 pnpm db:migrate   # DB 마이그레이션
 pnpm db:studio    # Prisma Studio
