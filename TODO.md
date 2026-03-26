@@ -41,6 +41,9 @@
 - [ ] 환경변수 런타임 Zod 검증 (서버 시작 시 필수 env 누락 체크)
 - [ ] `helmet` 설치 (Express 보안 헤더 — XSS, clickjacking 등)
 - [ ] Rate limiting 설치 (`express-rate-limit` — 로그인 brute force 방어)
+- [ ] Request body size limit 설정 (`express.json({ limit: '10kb' })`)
+- [ ] API 버전 prefix 적용 (`/api/v1/`)
+- [ ] DB 커넥션 풀 크기 명시 (Prisma `connection_limit`)
 - [ ] Seed 스크립트 작성 (개발용 더미 데이터)
 
 ### 프론트엔드 셋업
@@ -56,6 +59,7 @@
 - [ ] `.env.local` 파일 생성
 - [ ] 에러 바운더리 (React 렌더링 에러 처리)
 - [ ] SEO / OG 태그 설정 (layout.tsx metadata 확장)
+- [ ] Bundle analyzer 설정 (`@next/bundle-analyzer`)
 
 ### Shared 패키지
 
@@ -84,6 +88,7 @@
 - [x] Docker Compose — PostgreSQL 16
 - [ ] Prisma User 모델 Better-Auth 스펙 맞춤 (name, emailVerified, image, updatedAt / passwordHash 제거)
 - [ ] Redis docker-compose에 추가
+- [ ] DB 인덱스 추가 (`tins.userId`, `tins.status`, `tags.userId`)
 - [ ] DB 마이그레이션 최초 실행 (`pnpm docker:up && pnpm db:migrate`)
 
 ---
