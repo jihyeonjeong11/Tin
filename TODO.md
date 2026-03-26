@@ -137,9 +137,30 @@
 
 ## 🚀 배포 (후순위)
 
-- [ ] Oracle Cloud 인프라 셋업
-- [ ] 프로덕션 환경변수 정리
-- [ ] Docker 프로덕션 이미지 (멀티스테이지 빌드)
+### Oracle Cloud VM 셋업 (1회)
+
+- [ ] Ampere A1 인스턴스 생성 (Always Free — 4 OCPU, 24GB RAM)
+- [ ] VM에 Docker + Docker Compose 설치
+- [ ] 방화벽 규칙 설정 (포트 80, 443, 22)
+- [ ] GitHub Actions용 SSH 키 생성 및 등록
+- [ ] 프로덕션용 `docker-compose.prod.yml` 작성 (PostgreSQL + Redis + backend + frontend)
+- [ ] 프로덕션 환경변수 정리 (`.env.prod` — VM에만 보관)
+
+### Docker 이미지
+
+- [ ] 백엔드 `Dockerfile` 작성 (멀티스테이지 빌드)
+- [ ] 프론트엔드 `Dockerfile` 작성 (멀티스테이지 빌드)
 - [ ] Graceful shutdown 처리 (SIGTERM — 요청 마무리 후 DB 연결 종료)
-- [ ] CI/CD (GitHub Actions)
-- [ ] 도메인 + HTTPS 설정
+
+### GitHub Actions CI/CD
+
+- [ ] CI 워크플로우 작성 (`pnpm lint` + `pnpm typecheck` + `pnpm test`)
+- [ ] CD 워크플로우 작성
+  - Docker 이미지 빌드 → ghcr.io push
+  - Oracle VM SSH 접속 → `docker compose pull && docker compose up -d`
+- [ ] GitHub Secrets 등록 (SSH 키, VM IP, ghcr.io 토큰)
+
+### 도메인 / HTTPS
+
+- [ ] 도메인 연결 (Oracle VM IP)
+- [ ] HTTPS 설정 (Let's Encrypt + nginx reverse proxy)
