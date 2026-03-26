@@ -1,10 +1,7 @@
 'use client'
 
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import { ThemeProvider } from 'next-themes'
 import { useState } from 'react'
 import { api } from '@/lib/api'
 
@@ -28,13 +25,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
             retry: 1,
           },
         },
-      })
+      }),
   )
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <HealthCheck />
-      {children}
-    </QueryClientProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <QueryClientProvider client={queryClient}>
+        <HealthCheck />
+        {children}
+      </QueryClientProvider>
+    </ThemeProvider>
   )
 }

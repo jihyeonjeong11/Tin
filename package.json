@@ -19,6 +19,7 @@
     "db:generate": "pnpm --filter @tin/backend db:generate",
     "db:migrate": "pnpm --filter @tin/backend db:migrate",
     "db:push": "pnpm --filter @tin/backend db:push",
+    "db:seed": "pnpm --filter @tin/backend db:seed",
     "db:studio": "pnpm --filter @tin/backend db:studio",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",

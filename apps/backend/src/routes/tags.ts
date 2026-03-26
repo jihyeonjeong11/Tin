@@ -1,4 +1,5 @@
 import { Router, type Router as ExpressRouter } from 'express'
+import { Prisma } from '@prisma/client'
 import { prisma } from '../lib/prisma.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { validate } from '../middleware/validate.js'
@@ -21,8 +22,16 @@ router.get('/', async (req, res) => {
 // POST /api/tags
 router.post('/', validate(CreateTagSchema), async (req, res) => {
   const userId = res.locals.userId as string
-  const tag = await prisma.tag.create({ data: { ...req.body, userId } })
-  res.status(201).json(tag)
+  try {
+    const tag = await prisma.tag.create({ data: { ...req.body, userId } })
+    res.status(201).json(tag)
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      res.status(409).json({ error: 'Tag already exists' })
+      return
+    }
+    throw err
+  }
 })
 
 // DELETE /api/tags/:id

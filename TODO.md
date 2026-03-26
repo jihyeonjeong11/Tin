@@ -44,7 +44,7 @@
 - [x] Request body size limit 설정 (`express.json({ limit: '10kb' })`)
 - [x] API 버전 prefix 적용 (`/api/v1/`)
 - [x] DB 커넥션 풀 크기 명시 (Prisma `connection_limit`)
-- [ ] Seed 스크립트 작성 (개발용 더미 데이터)
+- [x] Seed 스크립트 작성 (개발용 더미 데이터)
 
 ### 프론트엔드 셋업
 
@@ -59,7 +59,7 @@
 - [x] `.env.local` 파일 생성
 - [x] 에러 바운더리 (React 렌더링 에러 처리)
 - [x] SEO / OG 태그 설정 (layout.tsx metadata 확장)
-- [ ] Bundle analyzer 설정 (`@next/bundle-analyzer`)
+- [x] Bundle analyzer 설정 (`@next/bundle-analyzer`)
 
 ### Shared 패키지
 
@@ -77,8 +77,8 @@
 - [x] 타이포그래피 — Lora (serif) + Inter (sans)
 - [x] `globals.css` Quiet Paper 팔레트 적용
 - [x] Tin 상태별 유틸리티 클래스 (tin-letting-go / tin-reflection / tin-pending / tin-archived)
-- [ ] shadcn 컴포넌트 커스터마이즈 (Button, Input, Card, Badge)
-- [ ] 다크모드 토글
+- [x] shadcn 컴포넌트 설치 (Button, Input, Card, Badge)
+- [x] 다크모드 토글 (next-themes + ThemeToggle 컴포넌트)
 
 ### DB 스키마
 
@@ -95,8 +95,8 @@
 
 ## 🔴 Phase 1 — 안정화
 
-- [ ] Express 글로벌 에러 핸들러 추가
-- [ ] 태그 중복 생성 시 409 처리 (Prisma unique constraint)
+- [x] Express 글로벌 에러 핸들러 추가
+- [x] 태그 중복 생성 시 409 처리 (Prisma unique constraint)
 
 ---
 
