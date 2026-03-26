@@ -8,10 +8,13 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  passwordHash String   @map("password_hash")
-  createdAt    DateTime @default(now()) @map("created_at")
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false) @map("email_verified")
+  image         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
   tins    Tin[]
   tags    Tag[]
@@ -35,6 +38,8 @@ model Tin {
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tinTags TinTag[]
 
+  @@index([userId])
+  @@index([userId, status])
   @@map("tins")
 }
 
@@ -47,6 +52,7 @@ model Tag {
   tinTags TinTag[]
 
   @@unique([userId, name])
+  @@index([userId])
   @@map("tags")
 }
 

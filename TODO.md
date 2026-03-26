@@ -17,7 +17,7 @@
 - [x] `.gitignore`
 - [x] `postinstall` 자동화 (shared 빌드 + prisma generate)
 - [x] 루트 스크립트 정의 (dev, build, lint, typecheck, test, db:\*)
-- [ ] README.md 작성 (프로젝트 소개, 실행 방법)
+- [x] README.md 작성 (프로젝트 소개, 실행 방법)
 
 ### 테스트 인프라
 
@@ -37,13 +37,13 @@
 - [x] Better-Auth 서버 설정
 - [x] Prisma 설치 및 client 설정
 - [x] `.env.example` 작성
-- [ ] `.env` 파일 생성 (BETTER_AUTH_SECRET 랜덤값 포함)
-- [ ] 환경변수 런타임 Zod 검증 (서버 시작 시 필수 env 누락 체크)
-- [ ] `helmet` 설치 (Express 보안 헤더 — XSS, clickjacking 등)
-- [ ] Rate limiting 설치 (`express-rate-limit` — 로그인 brute force 방어)
-- [ ] Request body size limit 설정 (`express.json({ limit: '10kb' })`)
-- [ ] API 버전 prefix 적용 (`/api/v1/`)
-- [ ] DB 커넥션 풀 크기 명시 (Prisma `connection_limit`)
+- [x] `.env` 파일 생성 (BETTER_AUTH_SECRET 랜덤값 포함)
+- [x] 환경변수 런타임 Zod 검증 (서버 시작 시 필수 env 누락 체크)
+- [x] `helmet` 설치 (Express 보안 헤더 — XSS, clickjacking 등)
+- [x] Rate limiting 설치 (`express-rate-limit` — 로그인 brute force 방어)
+- [x] Request body size limit 설정 (`express.json({ limit: '10kb' })`)
+- [x] API 버전 prefix 적용 (`/api/v1/`)
+- [x] DB 커넥션 풀 크기 명시 (Prisma `connection_limit`)
 - [ ] Seed 스크립트 작성 (개발용 더미 데이터)
 
 ### 프론트엔드 셋업
@@ -56,9 +56,9 @@
 - [x] Better-Auth 클라이언트 초기화
 - [x] 컬러 스킴 — Quiet Paper 팔레트 (globals.css, 라이트/다크)
 - [x] `.env.example` 작성
-- [ ] `.env.local` 파일 생성
-- [ ] 에러 바운더리 (React 렌더링 에러 처리)
-- [ ] SEO / OG 태그 설정 (layout.tsx metadata 확장)
+- [x] `.env.local` 파일 생성
+- [x] 에러 바운더리 (React 렌더링 에러 처리)
+- [x] SEO / OG 태그 설정 (layout.tsx metadata 확장)
 - [ ] Bundle analyzer 설정 (`@next/bundle-analyzer`)
 
 ### Shared 패키지
@@ -68,7 +68,7 @@
 - [x] Zod 스키마 — `CreateTinSchema`, `UpdateTinSchema`, `TinResponseSchema`
 - [x] Zod 스키마 — `CreateTagSchema`, `TagResponseSchema`
 - [x] 공통 타입 — `TinStatus`, `TinType`
-- [ ] `RegisterSchema`에 `name` 필드 추가
+- [x] `RegisterSchema`에 `name` 필드 추가
 
 ### 디자인 시스템
 
@@ -86,9 +86,9 @@
 - [x] `TinStatus` enum (pending / archived)
 - [x] `TinType` enum (letting_go / reflection)
 - [x] Docker Compose — PostgreSQL 16
-- [ ] Prisma User 모델 Better-Auth 스펙 맞춤 (name, emailVerified, image, updatedAt / passwordHash 제거)
-- [ ] Redis docker-compose에 추가
-- [ ] DB 인덱스 추가 (`tins.userId`, `tins.status`, `tags.userId`)
+- [x] Prisma User 모델 Better-Auth 스펙 맞춤 (name, emailVerified, image, updatedAt / passwordHash 제거)
+- [x] Redis docker-compose에 추가
+- [x] DB 인덱스 추가 (`tins.userId`, `tins.status`, `tags.userId`)
 - [ ] DB 마이그레이션 최초 실행 (`pnpm docker:up && pnpm db:migrate`)
 
 ---
