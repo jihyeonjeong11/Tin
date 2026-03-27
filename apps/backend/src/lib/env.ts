@@ -1,5 +1,8 @@
 import 'dotenv/config'
+import pino from 'pino'
 import { z } from 'zod'
+
+const _logger = pino()
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
@@ -14,8 +17,7 @@ const envSchema = z.object({
 const parsed = envSchema.safeParse(process.env)
 
 if (!parsed.success) {
-  console.error('❌ Invalid environment variables:')
-  console.error(parsed.error.flatten().fieldErrors)
+  _logger.error({ errors: parsed.error.flatten().fieldErrors }, '❌ Invalid environment variables')
   process.exit(1)
 }
 

@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const CreateTinSchema = z.object({
   title: z.string().min(1).max(255),
   givenUpAt: z.string().date(),
-  feeling: z.string().optional(),
+  feeling: z.string().max(2000).optional(),
   type: z.enum(['letting_go', 'reflection']),
   tagIds: z.array(z.string().uuid()).optional(),
 })

@@ -6,6 +6,18 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { authClient } from '@/lib/auth-client'
 import { LogOut } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api'
+
+function HealthCheck() {
+  useQuery({
+    queryKey: ['health'],
+    queryFn: () => api.get('/health').then((r) => r.data),
+    staleTime: Infinity,
+    retry: false,
+  })
+  return null
+}
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -19,6 +31,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <div className="min-h-screen bg-background">
+      <HealthCheck />
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/80 backdrop-blur-sm">
         <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
           <Link href="/home" className="font-serif text-lg text-foreground">

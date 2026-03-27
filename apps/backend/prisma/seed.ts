@@ -31,7 +31,6 @@ async function main() {
         givenUpAt: new Date('2024-06-01'),
         feeling: '지쳐있었지만 멈추지 못했다',
         type: 'letting_go',
-        status: 'pending',
       },
       {
         userId: user.id,
@@ -39,7 +38,6 @@ async function main() {
         givenUpAt: new Date('2023-03-15'),
         feeling: '많이 배웠고, 많이 상처받았다',
         type: 'reflection',
-        status: 'archived',
       },
       {
         userId: user.id,
@@ -47,7 +45,6 @@ async function main() {
         givenUpAt: new Date('2025-01-10'),
         feeling: '의지는 있었지만 현실은 달랐다',
         type: 'letting_go',
-        status: 'pending',
       },
     ],
   })

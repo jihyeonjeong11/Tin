@@ -69,9 +69,12 @@ export default function NewTinPage() {
 
         {/* Title */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">제목</label>
+          <label htmlFor="title" className="text-sm font-medium text-foreground">
+            제목
+          </label>
           <Input
             {...register('title')}
+            id="title"
             placeholder="무엇을 기록할까요?"
             aria-invalid={!!errors.title}
           />
@@ -80,10 +83,15 @@ export default function NewTinPage() {
 
         {/* Date */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">
+          <label htmlFor="givenUpAt" className="text-sm font-medium text-foreground">
             {tinType === 'letting_go' ? '포기한 날짜' : '기록 날짜'}
           </label>
-          <Input {...register('givenUpAt')} type="date" aria-invalid={!!errors.givenUpAt} />
+          <Input
+            {...register('givenUpAt')}
+            id="givenUpAt"
+            type="date"
+            aria-invalid={!!errors.givenUpAt}
+          />
           {errors.givenUpAt && (
             <p className="text-xs text-destructive">{errors.givenUpAt.message}</p>
           )}
@@ -91,9 +99,12 @@ export default function NewTinPage() {
 
         {/* Feeling */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">감정 / 메모 (선택)</label>
+          <label htmlFor="feeling" className="text-sm font-medium text-foreground">
+            감정 / 메모 (선택)
+          </label>
           <textarea
             {...register('feeling')}
+            id="feeling"
             rows={4}
             placeholder="그때 어떤 감정이었나요?"
             className="w-full resize-none rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"

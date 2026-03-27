@@ -51,18 +51,20 @@ export default function RegisterPage() {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-          <Field label="이름" error={errors.name?.message}>
+          <Field htmlFor="name" label="이름" error={errors.name?.message}>
             <Input
               {...register('name')}
+              id="name"
               placeholder="홍길동"
               aria-invalid={!!errors.name}
               autoComplete="name"
             />
           </Field>
 
-          <Field label="이메일" error={errors.email?.message}>
+          <Field htmlFor="email" label="이메일" error={errors.email?.message}>
             <Input
               {...register('email')}
+              id="email"
               type="email"
               placeholder="you@example.com"
               aria-invalid={!!errors.email}
@@ -70,9 +72,10 @@ export default function RegisterPage() {
             />
           </Field>
 
-          <Field label="비밀번호" error={errors.password?.message}>
+          <Field htmlFor="password" label="비밀번호" error={errors.password?.message}>
             <Input
               {...register('password')}
+              id="password"
               type="password"
               placeholder="8자 이상"
               aria-invalid={!!errors.password}
@@ -105,17 +108,22 @@ export default function RegisterPage() {
 // ─── Field ────────────────────────────────────────────────────────────────────
 
 function Field({
+  htmlFor,
   label,
   error,
   children,
 }: {
+  htmlFor: string
   label: string
   error?: string
   children: React.ReactNode
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className={cn('text-sm font-medium', error ? 'text-destructive' : 'text-foreground')}>
+      <label
+        htmlFor={htmlFor}
+        className={cn('text-sm font-medium', error ? 'text-destructive' : 'text-foreground')}
+      >
         {label}
       </label>
       {children}
