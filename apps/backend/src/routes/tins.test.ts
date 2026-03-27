@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import request from 'supertest'
-import express from 'express'
+import express, { type Request, type Response, type NextFunction } from 'express'
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
@@ -19,7 +19,7 @@ const { mockPrisma } = vi.hoisted(() => ({
 vi.mock('../lib/prisma.js', () => ({ prisma: mockPrisma }))
 
 vi.mock('../middleware/requireAuth.js', () => ({
-  requireAuth: (_req: any, res: any, next: any) => {
+  requireAuth: (_req: Request, res: Response, next: NextFunction) => {
     res.locals.userId = 'aaaaaaaa-0000-0000-0000-000000000001'
     next()
   },
@@ -48,7 +48,7 @@ const tinInDb = {
 const app = express()
 app.use(express.json())
 app.use('/api/v1/tins', tinsRouter)
-app.use((err: Error, _req: any, res: any, _next: any) => {
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: err.message })
 })
 

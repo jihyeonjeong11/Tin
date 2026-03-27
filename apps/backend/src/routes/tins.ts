@@ -1,4 +1,5 @@
-import { Router, type Router as ExpressRouter } from 'express'
+import { Router, type Router as ExpressRouter, type Request, type Response } from 'express'
+import type { Prisma } from '@prisma/client'
 import { prisma } from '../lib/prisma.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { validate } from '../middleware/validate.js'
@@ -9,7 +10,7 @@ const router: ExpressRouter = Router()
 router.use(requireAuth)
 
 // GET /api/tins
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   const userId = res.locals.userId as string
   const type = req.query.type as 'letting_go' | 'reflection' | undefined
 
@@ -26,7 +27,7 @@ router.get('/', async (req, res) => {
 })
 
 // GET /api/tins/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req: Request, res: Response) => {
   const userId = res.locals.userId as string
   const tin = await prisma.tin.findFirst({
     where: { id: req.params['id'] as string, userId },
@@ -42,7 +43,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /api/tins
-router.post('/', validate(CreateTinSchema), async (req, res) => {
+router.post('/', validate(CreateTinSchema), async (req: Request, res: Response) => {
   const userId = res.locals.userId as string
   const { tagIds, ...data } = req.body
 
@@ -62,7 +63,7 @@ router.post('/', validate(CreateTinSchema), async (req, res) => {
 })
 
 // PATCH /api/tins/:id
-router.patch('/:id', validate(UpdateTinSchema), async (req, res) => {
+router.patch('/:id', validate(UpdateTinSchema), async (req: Request, res: Response) => {
   const userId = res.locals.userId as string
   const { tagIds, ...data } = req.body
 
@@ -93,7 +94,7 @@ router.patch('/:id', validate(UpdateTinSchema), async (req, res) => {
 })
 
 // DELETE /api/tins/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   const userId = res.locals.userId as string
   const existing = await prisma.tin.findFirst({
     where: { id: req.params['id'] as string, userId },
@@ -107,7 +108,11 @@ router.delete('/:id', async (req, res) => {
   res.status(204).send()
 })
 
-function formatTin(tin: any) {
+type TinWithTags = Prisma.TinGetPayload<{
+  include: { tinTags: { include: { tag: true } } }
+}>
+
+function formatTin(tin: TinWithTags) {
   return {
     id: tin.id,
     userId: tin.userId,
@@ -117,7 +122,7 @@ function formatTin(tin: any) {
     type: tin.type,
     createdAt: tin.createdAt.toISOString(),
     updatedAt: tin.updatedAt.toISOString(),
-    tags: tin.tinTags?.map((tt: any) => ({ id: tt.tag.id, name: tt.tag.name })) ?? [],
+    tags: tin.tinTags.map((tt) => ({ id: tt.tag.id, name: tt.tag.name })),
   }
 }
 

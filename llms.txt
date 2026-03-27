@@ -16,7 +16,8 @@
 - [lucide-react icons](https://lucide.dev/icons) — 아이콘 목록 참고
 
 ## 백엔드
-- [Express docs](https://expressjs.com/en/4x/api.html) — 라우터, 미들웨어 참고
+- [Express docs](https://expressjs.com/en/5x/api.html) — 라우터, 미들웨어 참고
+- [Express request type](https://blog.logrocket.com/extend-express-request-object-typescript/) - request 타입
 - [Express security best practices](https://expressjs.com/en/advanced/best-practice-security.html) — helmet, rate limiting 등 보안 설정 참고
 - [Prisma docs](https://www.prisma.io/docs) — 스키마, 마이그레이션, 쿼리 참고
 - [Better-Auth docs](https://www.better-auth.com/docs/introduction) — 인증 설정, 세션, Prisma 어댑터 참고
