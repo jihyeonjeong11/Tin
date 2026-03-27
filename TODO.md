@@ -110,7 +110,7 @@
 
 - [x] 회원가입 페이지 (`/register`)
 - [x] 로그인 페이지 (`/login`)
-- [x] 인증 상태에 따른 라우트 보호 (middleware.ts)
+- [x] 인증 상태에 따른 라우트 보호 (proxy.ts)
 - [x] 로그아웃 UI (홈 헤더)
 
 ### API 레이어 (TanStack Query 훅)
