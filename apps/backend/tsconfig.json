@@ -3,8 +3,12 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "paths": {
+      "@tin/shared": ["../../packages/shared/src/index"]
+    }
   },
   "include": ["src"]
 }

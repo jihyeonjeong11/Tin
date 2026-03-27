@@ -27,8 +27,11 @@
     "typecheck": "pnpm -r typecheck",
     "typecheck:fe": "pnpm --filter @tin/frontend typecheck",
     "typecheck:be": "pnpm --filter @tin/backend typecheck",
-    "postinstall": "pnpm --filter @tin/shared build && pnpm --filter @tin/backend db:generate",
+    "postinstall": "pnpm --filter @tin/backend db:generate",
     "prepare": "husky"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
