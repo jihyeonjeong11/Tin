@@ -2,10 +2,14 @@
 
 코드리뷰 및 개선 작업 목록. 완료 시 `[x]`로 표시.
 
+블로그: tsup 이슈, express request
+
 ## HUMAN
 
 - [] better-auth jwt 방식으로 변경
 - [] 랜딩 페이지 진입 시 token이 유효하다면 home으로 이동해야 함
+- [] 태그 관리 UI 미구현 — `useCreateTag`, `useDeleteTag` 훅은 있으나 태그를 생성/삭제하는 페이지 없음
+- [] `tins.ts`, `tags.ts` 라우트 핸들러 `Request<{}, {}, Body>` 패턴 재검토 — `{}` 사용이 적절한지 아티클 참고 후 판단 (llms.txt Express request type 링크)
 
 ---
 
