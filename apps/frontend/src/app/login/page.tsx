@@ -38,10 +38,11 @@ function LoginForm() {
       email: data.email,
       password: data.password,
     })
-    if (result.error) {
-      setServerError(result.error.message ?? '로그인에 실패했습니다.')
+    if (result.error || !result.data) {
+      setServerError(result.error?.message ?? '로그인에 실패했습니다.')
       return
     }
+
     router.push(searchParams.get('next') ?? '/home')
   }
 
