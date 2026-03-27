@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import pinoHttp from 'pino-http'
 import { toNodeHandler } from 'better-auth/node'
+import { env } from './lib/env.js'
 import { logger } from './lib/logger.js'
 import { auth } from './lib/auth.js'
 import tinsRouter from './routes/tins.js'
@@ -23,17 +24,24 @@ app.use(
 app.use(pinoHttp({ logger }))
 app.use(express.json({ limit: '10kb' }))
 
-// Rate limiting — 인증 엔드포인트
-const authLimiter = rateLimit({
+const isProd = env.NODE_ENV === 'production'
+
+// Rate limiting (production only)
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15분
-  max: 20,
+  limit: async (_req, _res) => {
+    if (isProd) return 20
+    else return 9999
+  },
   message: { error: 'Too many requests, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
 })
 
+app.use(limiter)
+
 // Better-Auth handler
-app.all('/api/auth/*splat', authLimiter, toNodeHandler(auth))
+app.all('/api/auth/*splat', toNodeHandler(auth))
 
 // API v1 routes
 app.use('/api/v1/tins', tinsRouter)
