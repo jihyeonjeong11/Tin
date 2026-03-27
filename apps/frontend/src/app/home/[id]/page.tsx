@@ -3,7 +3,6 @@
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/format'
 import { Pencil, Trash2, ArrowLeft } from 'lucide-react'
@@ -81,17 +80,6 @@ export default function TinDetailPage() {
         <p className="mt-8 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
           {tin.feeling}
         </p>
-      )}
-
-      {/* Tags */}
-      {tin.tags && tin.tags.length > 0 && (
-        <div className="mt-6 flex flex-wrap gap-2">
-          {tin.tags.map((tag) => (
-            <Badge key={tag.id} variant="secondary">
-              {tag.name}
-            </Badge>
-          ))}
-        </div>
       )}
 
       <div className="mt-8 h-px w-full bg-border/50" />

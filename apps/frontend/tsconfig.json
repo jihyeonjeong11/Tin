@@ -11,8 +11,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@tin/shared": ["../../packages/shared/src/index"]
+      "@/*": ["./src/*"]
     },
     "allowJs": true,
     "noEmit": true,

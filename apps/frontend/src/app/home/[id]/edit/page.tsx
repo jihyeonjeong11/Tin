@@ -1,33 +1,27 @@
 'use client'
 
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UpdateTinSchema, type UpdateTinInput } from '@tin/shared'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useTin, useUpdateTin } from '@/hooks/use-tins'
-import { useTags } from '@/hooks/use-tags'
 
 export default function EditTinPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
 
   const { data: tin, isLoading } = useTin(id)
-  const { data: tags = [] } = useTags()
   const updateTin = useUpdateTin(id)
-
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([])
 
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<UpdateTinInput>({
     resolver: zodResolver(UpdateTinSchema),
@@ -41,22 +35,11 @@ export default function EditTinPage() {
       feeling: tin.feeling ?? undefined,
       type: tin.type,
     })
-    const tagIds = tin.tags?.map((t) => t.id) ?? []
-    setSelectedTagIds(tagIds)
-    setValue('tagIds', tagIds)
-  }, [tin, reset, setValue])
+  }, [tin, reset])
 
   const onSubmit = async (data: UpdateTinInput) => {
-    await updateTin.mutateAsync({ ...data, tagIds: selectedTagIds })
+    await updateTin.mutateAsync(data)
     router.push(`/home/${id}`)
-  }
-
-  const toggleTag = (tagId: string) => {
-    setSelectedTagIds((prev) => {
-      const next = prev.includes(tagId) ? prev.filter((t) => t !== tagId) : [...prev, tagId]
-      setValue('tagIds', next, { shouldDirty: true })
-      return next
-    })
   }
 
   if (isLoading) {
@@ -119,25 +102,6 @@ export default function EditTinPage() {
             className="w-full resize-none rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
           />
         </div>
-
-        {/* Tags */}
-        {tags.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">태그</label>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <button key={tag.id} type="button" onClick={() => toggleTag(tag.id)}>
-                  <Badge
-                    variant={selectedTagIds.includes(tag.id) ? 'default' : 'secondary'}
-                    className="cursor-pointer"
-                  >
-                    {tag.name}
-                  </Badge>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Actions */}
         <div className="flex justify-end gap-2 pt-2">

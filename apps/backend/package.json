@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "@tin/shared": "workspace:*",
     "better-auth": "^1.2.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

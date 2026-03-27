@@ -7,21 +7,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CreateTinSchema, type CreateTinInput } from '@tin/shared'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { Archive, Feather } from 'lucide-react'
 import { useCreateTin } from '@/hooks/use-tins'
-import { useTags } from '@/hooks/use-tags'
 
 type TinType = 'letting_go' | 'reflection'
 
 export default function NewTinPage() {
   const router = useRouter()
   const [tinType, setTinType] = useState<TinType | null>(null)
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([])
 
   const createTin = useCreateTin()
-  const { data: tags = [] } = useTags()
 
   const {
     register,
@@ -33,21 +29,13 @@ export default function NewTinPage() {
   })
 
   const onSubmit = async (data: CreateTinInput) => {
-    await createTin.mutateAsync({ ...data, tagIds: selectedTagIds })
+    await createTin.mutateAsync(data)
     router.push('/home')
   }
 
   const handleTypeSelect = (type: TinType) => {
     setTinType(type)
     setValue('type', type)
-  }
-
-  const toggleTag = (id: string) => {
-    setSelectedTagIds((prev) => {
-      const next = prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
-      setValue('tagIds', next)
-      return next
-    })
   }
 
   return (
@@ -111,25 +99,6 @@ export default function NewTinPage() {
             className="w-full resize-none rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
           />
         </div>
-
-        {/* Tags */}
-        {tags.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">태그 (선택)</label>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <button key={tag.id} type="button" onClick={() => toggleTag(tag.id)}>
-                  <Badge
-                    variant={selectedTagIds.includes(tag.id) ? 'default' : 'secondary'}
-                    className="cursor-pointer"
-                  >
-                    {tag.name}
-                  </Badge>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Actions */}
         <div className="flex justify-end gap-2 pt-2">

@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { buttonVariants } from '@/lib/button-variants'
-import { Badge } from '@/components/ui/badge'
 import { Plus, Archive, Feather } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTins } from '@/hooks/use-tins'
@@ -82,16 +81,6 @@ function TinCard({ tin }: { tin: TinResponse }) {
 
       {tin.feeling && (
         <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">{tin.feeling}</p>
-      )}
-
-      {tin.tags && tin.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {tin.tags.map((tag) => (
-            <Badge key={tag.id} variant="secondary" className="text-xs">
-              {tag.name}
-            </Badge>
-          ))}
-        </div>
       )}
     </Link>
   )
