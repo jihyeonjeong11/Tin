@@ -31,6 +31,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@rolldown/binding-win32-x64-msvc": "1.0.0-rc.12",
     "zod": "^3.24.2"
   },
   "devDependencies": {
