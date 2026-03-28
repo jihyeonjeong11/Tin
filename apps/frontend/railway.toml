@@ -3,4 +3,3 @@ builder = "DOCKERFILE"
 dockerfilePath = "apps/frontend/Dockerfile"
 
 [deploy]
-startCommand = ""
