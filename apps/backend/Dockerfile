@@ -24,4 +24,4 @@ RUN pnpm --filter @tin/backend build
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "pnpm --filter @tin/backend exec prisma migrate deploy && node apps/backend/dist/index.js"]
+CMD ["sh", "-c", "pnpm --filter @tin/backend exec prisma db push && node apps/backend/dist/index.js"]
