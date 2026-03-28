@@ -223,7 +223,7 @@ function Footer() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-function AuthRedirect() {
+export default function LandingPage() {
   const router = useRouter()
   const { data: session, isPending } = authClient.useSession()
 
@@ -231,13 +231,10 @@ function AuthRedirect() {
     if (!isPending && session) router.replace('/home')
   }, [isPending, session, router])
 
-  return null
-}
+  if (isPending || session) return null
 
-export default function LandingPage() {
   return (
     <>
-      <AuthRedirect />
       <Nav />
       <main>
         <Hero />
