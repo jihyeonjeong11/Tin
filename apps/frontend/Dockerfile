@@ -13,6 +13,9 @@ RUN pnpm install --frozen-lockfile
 COPY tsconfig.base.json ./
 COPY packages/shared ./packages/shared
 COPY apps/frontend ./apps/frontend
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 RUN pnpm --filter @tin/frontend build
 
 # ── runner ────────────────────────────────────────────────────────────────────
