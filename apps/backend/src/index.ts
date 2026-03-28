@@ -15,13 +15,21 @@ const app: express.Express = express()
 const PORT = process.env.PORT ?? 4000
 
 app.use(helmet())
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
-    credentials: true,
-  }),
-)
+
+const corsOptions = {
+  origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+  credentials: true,
+  exposedHeaders: ['set-auth-token'],
+  methods: ['GET', 'POST'],
+}
+
+app.options('*', cors(corsOptions)) // preflight 명시적 처리
+app.use(cors(corsOptions))
 app.use(pinoHttp({ logger }))
+
+// Better-Auth handler must be before body parsers (better-auth reads raw body stream)
+app.all('/api/auth/*splat', toNodeHandler(auth))
+
 app.use(express.json({ limit: '10kb' }))
 
 const isProd = env.NODE_ENV === 'production'
@@ -39,9 +47,6 @@ const limiter = rateLimit({
 })
 
 app.use(limiter)
-
-// Better-Auth handler
-app.all('/api/auth/*splat', toNodeHandler(auth))
 
 // API v1 routes
 app.use('/api/v1/tins', tinsRouter)
