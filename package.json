@@ -27,7 +27,7 @@
     "typecheck": "pnpm -r typecheck",
     "typecheck:fe": "pnpm --filter @tin/frontend typecheck",
     "typecheck:be": "pnpm --filter @tin/backend typecheck",
-    "postinstall": "pnpm --filter @tin/backend db:generate",
+    "postinstall": "node -e \"if(!process.env.DOCKER_BUILD) require('child_process').execSync('pnpm --filter @tin/backend db:generate',{stdio:'inherit'})\"",
     "prepare": "husky"
   },
   "dependencies": {

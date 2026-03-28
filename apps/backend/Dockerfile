@@ -4,6 +4,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 WORKDIR /app
+ENV DOCKER_BUILD=true
 
 # ── deps (layer cache) ────────────────────────────────────────────────────────
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
