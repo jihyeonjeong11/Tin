@@ -33,11 +33,15 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterFormInput) => {
     setServerError(null)
-    const result = await authClient.signUp.email({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    })
+    const result = await authClient.signUp.email(
+      { name: data.name, email: data.email, password: data.password },
+      {
+        onSuccess: (ctx) => {
+          const token = ctx.response.headers.get('set-auth-token')
+          if (token) localStorage.setItem('bearer_token', token)
+        },
+      },
+    )
     if (result.error) {
       setServerError(result.error.message ?? '회원가입에 실패했습니다.')
       return
