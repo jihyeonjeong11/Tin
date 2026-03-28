@@ -20,7 +20,7 @@ const corsOptions = {
   origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
   credentials: true,
   exposedHeaders: ['set-auth-token'],
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }
 
 app.options('/*splat', cors(corsOptions)) // preflight 명시적 처리

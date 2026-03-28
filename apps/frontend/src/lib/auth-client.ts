@@ -5,4 +5,7 @@ import { createAuthClient } from 'better-auth/react'
 // Use authClient.signIn(), authClient.useSession(), etc. at call sites.
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000',
+  fetchOptions: {
+    credentials: 'include',
+  },
 })
