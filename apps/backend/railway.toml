@@ -1,0 +1,6 @@
+[deploy]
+startCommand = "node apps/backend/dist/index.js"
+healthcheckPath = "/health"
+
+[deploy.preDeployCommand]
+command = "pnpm --filter @tin/backend exec prisma migrate deploy"
