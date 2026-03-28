@@ -25,7 +25,7 @@ COPY --from=builder /app/apps/frontend/.next/static ./apps/frontend/.next/static
 COPY --from=builder /app/apps/frontend/public ./apps/frontend/public
 
 # Remove workspace detection files so Railway doesn't override the start command
-RUN rm -f pnpm-workspace.yaml package.json
+RUN rm -f pnpm-workspace.yaml pnpm-lock.yaml package-lock.json yarn.lock package.json apps/frontend/package.json
 
 EXPOSE 3000
 ENV PORT=3000
