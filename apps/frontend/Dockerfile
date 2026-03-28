@@ -16,13 +16,16 @@ COPY apps/frontend ./apps/frontend
 RUN pnpm --filter @tin/frontend build
 
 # ── runner ────────────────────────────────────────────────────────────────────
-FROM base AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/apps/frontend/.next/standalone ./
 COPY --from=builder /app/apps/frontend/.next/static ./apps/frontend/.next/static
 COPY --from=builder /app/apps/frontend/public ./apps/frontend/public
+
+# Remove workspace detection files so Railway doesn't override the start command
+RUN rm -f pnpm-workspace.yaml package.json
 
 EXPOSE 3000
 ENV PORT=3000
