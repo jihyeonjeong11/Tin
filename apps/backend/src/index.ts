@@ -52,6 +52,33 @@ app.use(limiter)
 app.use('/api/v1/tins', tinsRouter)
 app.use('/api/v1/tags', tagsRouter)
 
+// Root
+app.get('/', (_req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Tin API</title>
+      <style>
+        body { font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #0f0f0f; color: #e5e5e5; }
+        .box { text-align: center; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        p { color: #888; margin: 0.25rem 0; }
+        .dot { color: #4ade80; }
+      </style>
+    </head>
+    <body>
+      <div class="box">
+        <h1>🥫 Tin API</h1>
+        <p><span class="dot">●</span> running</p>
+        <p style="margin-top:1rem; font-size:0.8rem; color:#555;">GET /health · /api/v1/tins · /api/v1/tags</p>
+      </div>
+    </body>
+    </html>
+  `)
+})
+
 // Health check
 app.get('/health', (_req, res) => res.json({ status: 'ok' }))
 
