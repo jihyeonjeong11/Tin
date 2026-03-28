@@ -1,9 +1,14 @@
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { buttonVariants } from '@/lib/button-variants'
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, BookOpen, Archive, Feather } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { authClient } from '@/lib/auth-client'
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
@@ -218,9 +223,21 @@ function Footer() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+function AuthRedirect() {
+  const router = useRouter()
+  const { data: session, isPending } = authClient.useSession()
+
+  useEffect(() => {
+    if (!isPending && session) router.replace('/home')
+  }, [isPending, session, router])
+
+  return null
+}
+
 export default function LandingPage() {
   return (
     <>
+      <AuthRedirect />
       <Nav />
       <main>
         <Hero />
