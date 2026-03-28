@@ -18,10 +18,10 @@ COPY tsconfig.base.json ./
 COPY packages/shared ./packages/shared
 COPY apps/backend ./apps/backend
 
-# Generate Prisma client
+# Generate Prisma client and build
 RUN pnpm --filter @tin/backend db:generate
+RUN pnpm --filter @tin/backend build
 
 EXPOSE 4000
 
-# tsc has noEmit:true (moduleResolution: bundler) — tsx used as runtime
-CMD ["node_modules/.bin/tsx", "apps/backend/src/index.ts"]
+CMD ["node", "apps/backend/dist/index.js"]

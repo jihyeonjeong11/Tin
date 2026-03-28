@@ -3,4 +3,4 @@ builder = "DOCKERFILE"
 dockerfilePath = "apps/backend/Dockerfile"
 
 [deploy]
-startCommand = "node_modules/.bin/tsx apps/backend/src/index.ts"
+startCommand = "node apps/backend/dist/index.js"
