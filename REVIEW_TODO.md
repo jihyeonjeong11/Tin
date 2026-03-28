@@ -15,6 +15,10 @@
 
 - [] 배포 이후 graphql이나 trpc로 shared 타입 문제 생각하기
 
+- [] 회원 탈퇴 기능 구현 — 백엔드 삭제 엔드포인트 + 홈 레이아웃 UI (로그아웃 버튼 옆)
+- [] 약관/개인정보처리방침 — 공지·이메일 고지 조항 주석 해제 (공지 또는 이메일 기능 구현 후)
+- [] 개인정보처리방침에도 탈퇴 시 데이터 삭제 조항 확인 — 탈퇴 기능 구현 후 내용 재검토
+
 ---
 
 ## CRITICAL
@@ -26,7 +30,7 @@
 
 ## HIGH
 
-- [ ] **[H-1]** `apps/backend/src/index.ts` — `/api/v1/*` rate limiting 추가 (현재 `/api/auth/*`에만 적용)
+- [x] **[H-1]** `apps/backend/src/index.ts` — `/api/v1/*` rate limiting 추가 (`app.use(limiter)`로 전체 적용 확인)
 - [x] **[H-2]** `packages/shared/src/schemas/tin.ts` — `feeling` 필드 `max(2000)` 제한 추가
 - [x] **[H-3]** `packages/shared/src/schemas/user.ts` — `password` 필드 `max(128)` 제한 추가 (bcrypt 72바이트 truncation 이슈)
 - [x] **[H-4]** `apps/backend/src/routes/tins.ts:110` — `formatTin(tin: any)` → Prisma `TinGetPayload` 타입으로 교체 (이미 완료)

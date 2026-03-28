@@ -203,7 +203,14 @@ function Footer() {
     <footer className="border-t border-border px-6 py-8">
       <div className="mx-auto flex max-w-4xl items-center justify-between text-xs text-muted-foreground">
         <span className="font-serif text-sm">Tin</span>
-        <span>잊어도 괜찮아, 기록했으니까</span>
+        <div className="flex items-center gap-4">
+          <Link href="/terms" className="hover:text-foreground transition-colors">
+            이용약관
+          </Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            개인정보처리방침
+          </Link>
+        </div>
       </div>
     </footer>
   )

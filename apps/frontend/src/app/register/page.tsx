@@ -3,13 +3,20 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { RegisterSchema, type RegisterInput } from '@tin/shared'
 import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
+
+const RegisterFormSchema = RegisterSchema.extend({
+  agreed: z.literal(true, { errorMap: () => ({ message: '약관에 동의해주세요.' }) }),
+})
+type RegisterFormInput = z.infer<typeof RegisterFormSchema>
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -18,12 +25,13 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterInput>({
-    resolver: zodResolver(RegisterSchema),
+  } = useForm<RegisterFormInput>({
+    resolver: zodResolver(RegisterFormSchema),
   })
 
-  const onSubmit = async (data: RegisterInput) => {
+  const onSubmit = async (data: RegisterFormInput) => {
     setServerError(null)
     const result = await authClient.signUp.email({
       name: data.name,
@@ -82,6 +90,48 @@ export default function RegisterPage() {
               autoComplete="new-password"
             />
           </Field>
+
+          <Controller
+            control={control}
+            name="agreed"
+            render={({ field }) => (
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-start gap-2.5">
+                  <Checkbox
+                    id="agreed"
+                    checked={field.value === true}
+                    onCheckedChange={(checked) => field.onChange(checked ? true : false)}
+                    aria-invalid={!!errors.agreed}
+                    className="mt-0.5"
+                  />
+                  <label
+                    htmlFor="agreed"
+                    className="text-xs leading-relaxed text-muted-foreground cursor-pointer"
+                  >
+                    <Link
+                      href="/terms"
+                      className="text-foreground underline-offset-4 hover:underline"
+                      target="_blank"
+                    >
+                      이용약관
+                    </Link>{' '}
+                    및{' '}
+                    <Link
+                      href="/privacy"
+                      className="text-foreground underline-offset-4 hover:underline"
+                      target="_blank"
+                    >
+                      개인정보처리방침
+                    </Link>
+                    에 동의합니다.
+                  </label>
+                </div>
+                {errors.agreed && (
+                  <p className="text-xs text-destructive">{errors.agreed.message}</p>
+                )}
+              </div>
+            )}
+          />
 
           {serverError && (
             <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
