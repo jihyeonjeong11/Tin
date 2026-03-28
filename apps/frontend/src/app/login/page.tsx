@@ -39,7 +39,10 @@ function LoginForm() {
       {
         onSuccess: (ctx) => {
           const token = ctx.response.headers.get('set-auth-token')
-          if (token) localStorage.setItem('bearer_token', token)
+          if (token) {
+            localStorage.setItem('bearer_token', token)
+            document.cookie = `bearer_token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`
+          }
         },
       },
     )

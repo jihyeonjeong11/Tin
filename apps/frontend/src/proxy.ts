@@ -1,18 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSessionCookie } from 'better-auth/cookies'
 
 const PUBLIC_PATHS = ['/', '/login', '/register', '/terms', '/privacy']
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 async function verifySession(request: NextRequest): Promise<boolean> {
-  // Fast path: no cookie → not authenticated
-  const cookie = getSessionCookie(request)
-  if (!cookie) return false
+  // Fast path: no bearer token cookie → not authenticated
+  const token = request.cookies.get('bearer_token')?.value
+  if (!token) return false
 
-  // Validate against the server to catch stale/expired cookies
+  // Validate against the server
   try {
     const res = await fetch(`${API_URL}/api/auth/get-session`, {
-      headers: { cookie: request.headers.get('cookie') ?? '' },
+      headers: { Authorization: `Bearer ${token}` },
     })
     if (!res.ok) return false
     const data = await res.json()
