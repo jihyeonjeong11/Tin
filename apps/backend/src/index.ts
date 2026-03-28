@@ -23,7 +23,7 @@ const corsOptions = {
   methods: ['GET', 'POST'],
 }
 
-app.options('*', cors(corsOptions)) // preflight 명시적 처리
+app.options('/*splat', cors(corsOptions)) // preflight 명시적 처리
 app.use(cors(corsOptions))
 app.use(pinoHttp({ logger }))
 
