@@ -21,7 +21,12 @@ function HealthCheck() {
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
-  const { data: session } = authClient.useSession()
+  const { data: session, isPending } = authClient.useSession()
+
+  if (!isPending && !session) {
+    router.replace('/login')
+    return null
+  }
 
   const handleSignOut = async () => {
     await authClient.signOut()
