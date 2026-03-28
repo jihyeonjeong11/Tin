@@ -14,19 +14,6 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // refresh if 1 day old
-    cookieCache: {
-      enabled: true,
-      maxAge: 60 * 5,
-    },
-  },
-  advanced: {
-    crossSubdomainCookies: {
-      enabled: false,
-    },
-    defaultCookieAttributes: {
-      sameSite: 'none',
-      secure: true,
-    },
   },
   trustedOrigins: [process.env.FRONTEND_URL ?? 'http://localhost:3000'],
   plugins: [bearer()],
