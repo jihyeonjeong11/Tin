@@ -1,0 +1,18 @@
+# Build
+dist/
+
+# Dependencies
+node_modules/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+
+# Misc
+*.tsbuildinfo
+.DS_Store
+*.log
