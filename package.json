@@ -30,22 +30,26 @@
     "postinstall": "node -e \"if(!process.env.DOCKER_BUILD) require('child_process').execSync('pnpm --filter @tin/backend db:generate',{stdio:'inherit'})\"",
     "prepare": "husky"
   },
+  "engines": {
+    "node": ">=22 <23"
+  },
   "dependencies": {
     "@rolldown/binding-win32-x64-msvc": "1.0.0-rc.12",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.23.0",
-    "eslint": "^9.23.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.57.2"
+    "typescript": "^6.0.2"
   },
   "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
+    "apps/frontend/**/*.{ts,tsx,js,jsx}": [
+      "pnpm --filter @tin/frontend exec eslint --fix",
+      "prettier --write"
+    ],
+    "apps/backend/**/*.{ts,tsx,js,jsx}": [
+      "pnpm --filter @tin/backend exec eslint --fix",
       "prettier --write"
     ],
     "**/*.{json,md,css}": [
