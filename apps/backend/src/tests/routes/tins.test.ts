@@ -16,16 +16,16 @@ const { mockPrisma } = vi.hoisted(() => ({
   },
 }))
 
-vi.mock('../lib/prisma.js', () => ({ prisma: mockPrisma }))
+vi.mock('../../lib/prisma.js', () => ({ prisma: mockPrisma }))
 
-vi.mock('../middleware/requireAuth.js', () => ({
+vi.mock('../../middleware/requireAuth.js', () => ({
   requireAuth: (_req: Request, res: Response, next: NextFunction) => {
     res.locals.userId = 'aaaaaaaa-0000-0000-0000-000000000001'
     next()
   },
 }))
 
-import tinsRouter from './tins.js'
+import tinsRouter from '../../routes/tins.js'
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
