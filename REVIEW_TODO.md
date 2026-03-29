@@ -66,6 +66,11 @@
 
 - [ ] **[T-1]** `apps/backend/src/lib/env.ts` — `parseEnv(env)` 함수로 분리하여 Vitest 테스트 가능하도록 리팩터 (현재 모듈 로드 시 즉시 실행 → 테스트 불가)
 - [ ] **[T-2]** `apps/backend/src/lib/env.test.ts` — `parseEnv` 단위 테스트 작성 (필수 필드 누락, `BETTER_AUTH_SECRET` 32자 미만, 잘못된 URL 형식 등)
+- [ ] **[T-3]** `apps/backend/src/tests/` — `requireAuth` 미들웨어 단위 테스트 (비로그인 → 401, 유효 세션 → next() 호출)
+- [ ] **[T-4]** `apps/backend/src/tests/` — 인증 라우트 테스트 (회원가입 성공/이메일 중복, 로그인 성공/잘못된 비밀번호)
+- [ ] **[T-5]** `apps/frontend/src/tests/` — `theme-toggle.tsx:14` Branch 커버리지 누락 (system 테마 분기 미테스트)
+- [ ] **[T-6]** `apps/frontend/src/tests/` — `tin-list-skeleton.test.tsx` unused `container` 변수 경고 수정
+- [ ] **[T-7]** 커버리지 설정 공식화 — `vitest.config.ts`에 `coverage` 블록 추가 및 threshold 설정 (백엔드 90%, 프론트 95% 기준)
 
 ---
 
