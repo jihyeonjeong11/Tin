@@ -3,11 +3,11 @@
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/format'
 import { Pencil, Trash2, ArrowLeft } from 'lucide-react'
 import { useTin, useDeleteTin } from '@/hooks/use-tins'
-import type { TinResponse } from '@tin/shared'
+import { TypeBadge } from '@/components/type-badge'
+import { TinDetailSkeleton } from '@/components/tin-detail-skeleton'
 
 export default function TinDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -84,38 +84,6 @@ export default function TinDetailPage() {
 
       <div className="mt-8 h-px w-full bg-border/50" />
       <p className="mt-4 text-xs text-muted-foreground/50">{formatDate(tin.createdAt)} 에 기록됨</p>
-    </div>
-  )
-}
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function TypeBadge({ type }: { type: TinResponse['type'] }) {
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium',
-        type === 'letting_go'
-          ? 'bg-primary/10 text-primary'
-          : 'bg-secondary text-secondary-foreground',
-      )}
-    >
-      {type === 'letting_go' ? '놓아버림' : '돌아봄'}
-    </span>
-  )
-}
-
-function TinDetailSkeleton() {
-  return (
-    <div className="mx-auto max-w-xl animate-pulse">
-      <div className="mb-6 h-4 w-12 rounded bg-muted" />
-      <div className="h-7 w-2/3 rounded bg-muted" />
-      <div className="mt-2 h-4 w-1/3 rounded bg-muted" />
-      <div className="mt-8 space-y-2">
-        <div className="h-4 w-full rounded bg-muted" />
-        <div className="h-4 w-5/6 rounded bg-muted" />
-        <div className="h-4 w-4/6 rounded bg-muted" />
-      </div>
     </div>
   )
 }

@@ -16,6 +16,6 @@ catalog:
   # types
   "@types/node": ^22.13.14
   # test
-  vitest: ^4.1.2
+  vitest: 4.0.16
   # runtime (shared)
   better-auth: ^1.2.7

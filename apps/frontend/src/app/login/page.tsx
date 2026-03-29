@@ -9,7 +9,7 @@ import { LoginSchema, type LoginInput } from '@tin/shared'
 import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
+import { FormField } from '@/components/form-field'
 
 export default function LoginPage() {
   return (
@@ -66,7 +66,7 @@ function LoginForm() {
         <p className="mb-8 text-center text-sm text-muted-foreground">오늘도 기록해볼까요?</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-          <Field htmlFor="email" label="이메일" error={errors.email?.message}>
+          <FormField htmlFor="email" label="이메일" error={errors.email?.message}>
             <Input
               {...register('email')}
               id="email"
@@ -75,9 +75,9 @@ function LoginForm() {
               aria-invalid={!!errors.email}
               autoComplete="email"
             />
-          </Field>
+          </FormField>
 
-          <Field htmlFor="password" label="비밀번호" error={errors.password?.message}>
+          <FormField htmlFor="password" label="비밀번호" error={errors.password?.message}>
             <Input
               {...register('password')}
               id="password"
@@ -86,7 +86,7 @@ function LoginForm() {
               aria-invalid={!!errors.password}
               autoComplete="current-password"
             />
-          </Field>
+          </FormField>
 
           {serverError && (
             <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -106,33 +106,6 @@ function LoginForm() {
           </Link>
         </p>
       </div>
-    </div>
-  )
-}
-
-// ─── Field ────────────────────────────────────────────────────────────────────
-
-function Field({
-  htmlFor,
-  label,
-  error,
-  children,
-}: {
-  htmlFor: string
-  label: string
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={htmlFor}
-        className={cn('text-sm font-medium', error ? 'text-destructive' : 'text-foreground')}
-      >
-        {label}
-      </label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   )
 }

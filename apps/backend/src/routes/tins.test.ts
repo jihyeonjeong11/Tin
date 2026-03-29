@@ -60,6 +60,7 @@ describe('Tins API', () => {
   // ── 플로우: 새 아쉬움 작성 ─────────────────────────────────────────────────
   describe('POST /api/v1/tins — 새 아쉬움 작성', () => {
     it('letting_go 타입으로 tin 생성', async () => {
+      console.log('env!', process.env.NODE_ENV)
       mockPrisma.tin.create.mockResolvedValue(tinInDb)
 
       const res = await request(app).post('/api/v1/tins').send({

@@ -11,7 +11,7 @@ import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
-import { cn } from '@/lib/utils'
+import { FormField } from '@/components/form-field'
 
 const RegisterFormSchema = RegisterSchema.extend({
   agreed: z.literal(true, { errorMap: () => ({ message: '약관에 동의해주세요.' }) }),
@@ -65,7 +65,7 @@ export default function RegisterPage() {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-          <Field htmlFor="name" label="이름" error={errors.name?.message}>
+          <FormField htmlFor="name" label="이름" error={errors.name?.message}>
             <Input
               {...register('name')}
               id="name"
@@ -73,9 +73,9 @@ export default function RegisterPage() {
               aria-invalid={!!errors.name}
               autoComplete="name"
             />
-          </Field>
+          </FormField>
 
-          <Field htmlFor="email" label="이메일" error={errors.email?.message}>
+          <FormField htmlFor="email" label="이메일" error={errors.email?.message}>
             <Input
               {...register('email')}
               id="email"
@@ -84,9 +84,9 @@ export default function RegisterPage() {
               aria-invalid={!!errors.email}
               autoComplete="email"
             />
-          </Field>
+          </FormField>
 
-          <Field htmlFor="password" label="비밀번호" error={errors.password?.message}>
+          <FormField htmlFor="password" label="비밀번호" error={errors.password?.message}>
             <Input
               {...register('password')}
               id="password"
@@ -95,7 +95,7 @@ export default function RegisterPage() {
               aria-invalid={!!errors.password}
               autoComplete="new-password"
             />
-          </Field>
+          </FormField>
 
           <Controller
             control={control}
@@ -157,33 +157,6 @@ export default function RegisterPage() {
           </Link>
         </p>
       </div>
-    </div>
-  )
-}
-
-// ─── Field ────────────────────────────────────────────────────────────────────
-
-function Field({
-  htmlFor,
-  label,
-  error,
-  children,
-}: {
-  htmlFor: string
-  label: string
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={htmlFor}
-        className={cn('text-sm font-medium', error ? 'text-destructive' : 'text-foreground')}
-      >
-        {label}
-      </label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   )
 }

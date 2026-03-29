@@ -12,7 +12,7 @@
     "lint": "pnpm -r lint",
     "lint:fe": "pnpm --filter @tin/frontend lint",
     "lint:be": "pnpm --filter @tin/backend lint",
-    "test": "pnpm -r test",
+    "test:all": "vitest run",
     "test:fe": "pnpm --filter @tin/frontend test",
     "test:be": "pnpm --filter @tin/backend test",
     "test:e2e": "pnpm --filter @tin/frontend test:e2e",
@@ -37,10 +37,12 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "lint-staged": {
     "apps/frontend/**/*.{ts,tsx,js,jsx}": [
