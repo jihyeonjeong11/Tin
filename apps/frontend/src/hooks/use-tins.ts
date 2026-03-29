@@ -44,7 +44,6 @@ export function useCreateTin() {
       toast.success('Tin을 기록했어요')
     },
     onError: (error) => {
-      console.log('error', error)
       toast.error(getErrorMessage(error))
     },
   })

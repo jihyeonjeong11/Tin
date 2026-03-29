@@ -72,7 +72,7 @@ export default defineConfig([
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'no-console': 'warn',
+      'no-console': 'error',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
