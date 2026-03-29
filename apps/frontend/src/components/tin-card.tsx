@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Archive, Feather } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/format'
 import type { TinResponse } from '@tin/shared'
 
