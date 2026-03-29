@@ -34,24 +34,27 @@ function LoginForm() {
 
   const onSubmit = async (data: LoginInput) => {
     setServerError(null)
-    const result = await authClient.signIn.email(
-      { email: data.email, password: data.password },
-      {
-        onSuccess: (ctx) => {
-          const token = ctx.response.headers.get('set-auth-token')
-          if (token) {
-            localStorage.setItem('bearer_token', token)
-          }
+    try {
+      const result = await authClient.signIn.email(
+        { email: data.email, password: data.password },
+        {
+          onSuccess: (ctx) => {
+            const token = ctx.response.headers.get('set-auth-token')
+            if (token) {
+              localStorage.setItem('bearer_token', token)
+            }
+          },
         },
-      },
-    )
-    if (result.error || !result.data) {
-      setServerError(result.error?.message ?? '로그인에 실패했습니다.')
-      return
+      )
+      if (result.error || !result.data) {
+        setServerError(result.error?.message ?? '로그인에 실패했습니다.')
+        return
+      }
+      const next = searchParams.get('next')
+      router.push(next?.startsWith('/') ? next : '/home')
+    } catch {
+      setServerError('서버에 연결할 수 없어요')
     }
-
-    const next = searchParams.get('next')
-    router.push(next?.startsWith('/') ? next : '/home')
   }
 
   return (

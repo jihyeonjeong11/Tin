@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { authClient } from '@/lib/auth-client'
 import { LogOut } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { api } from '@/lib/api'
 
 function HealthCheck() {
@@ -23,10 +24,13 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
   const router = useRouter()
   const { data: session, isPending } = authClient.useSession()
 
-  if (!isPending && !session) {
-    router.replace('/login')
-    return null
-  }
+  useEffect(() => {
+    if (!isPending && !session) {
+      router.replace('/login')
+    }
+  }, [isPending, session, router])
+
+  if (!isPending && !session) return null
 
   const handleSignOut = async () => {
     await authClient.signOut()

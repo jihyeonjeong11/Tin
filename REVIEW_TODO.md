@@ -11,7 +11,8 @@
 - [] 태그 관리 UI 미구현 — `useCreateTag`, `useDeleteTag` 훅은 있으나 태그를 생성/삭제하는 페이지 없음
 - [] `tins.ts`, `tags.ts` 라우트 핸들러 `Request<{}, {}, Body>` 패턴 재검토 — `{}` 사용이 적절한지 아티클 참고 후 판단 (llms.txt Express request type 링크)
 
-- [] 에러 핸들링 + 토스트
+- [x] 에러 핸들링 + 토스트
+- [] 모든 엣지케이스 정리 — 오프라인/타임아웃/네트워크 에러 등 미확인 케이스 시나리오별 재검토
 
 - [] 배포 이후 graphql이나 trpc로 shared 타입 문제 생각하기
 

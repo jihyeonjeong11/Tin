@@ -33,22 +33,26 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterFormInput) => {
     setServerError(null)
-    const result = await authClient.signUp.email(
-      { name: data.name, email: data.email, password: data.password },
-      {
-        onSuccess: (ctx) => {
-          const token = ctx.response.headers.get('set-auth-token')
-          if (token) {
-            localStorage.setItem('bearer_token', token)
-          }
+    try {
+      const result = await authClient.signUp.email(
+        { name: data.name, email: data.email, password: data.password },
+        {
+          onSuccess: (ctx) => {
+            const token = ctx.response.headers.get('set-auth-token')
+            if (token) {
+              localStorage.setItem('bearer_token', token)
+            }
+          },
         },
-      },
-    )
-    if (result.error) {
-      setServerError(result.error.message ?? '회원가입에 실패했습니다.')
-      return
+      )
+      if (result.error) {
+        setServerError(result.error.message ?? '회원가입에 실패했습니다.')
+        return
+      }
+      router.push('/home')
+    } catch {
+      setServerError('서버에 연결할 수 없어요')
     }
-    router.push('/home')
   }
 
   return (
