@@ -27,13 +27,9 @@ export default function NewTinPage() {
     resolver: zodResolver(CreateTinSchema),
   })
 
-  const onSubmit = async (data: CreateTinInput) => {
-    try {
-      await createTin.mutateAsync(data)
-      router.push('/home')
-    } catch {
-      // 에러 토스트는 useCreateTin onError에서 처리
-    }
+  const onSubmit = (data: CreateTinInput) => {
+    createTin.mutate(data)
+    router.replace('/home')
   }
 
   const handleTypeSelect = (type: TinType) => {
