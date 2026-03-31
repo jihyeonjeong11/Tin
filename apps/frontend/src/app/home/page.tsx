@@ -20,7 +20,7 @@ export default function HomePage() {
       {/* Tabs + CTA */}
       <div className="flex items-center justify-between">
         <div className="flex gap-1 rounded-lg bg-muted p-1">
-          {(['letting_go', 'reflection'] as TinType[]).map((t) => (
+          {(['reflection', 'letting_go'] as TinType[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -31,7 +31,7 @@ export default function HomePage() {
                   : 'text-muted-foreground hover:text-foreground',
               )}
             >
-              {t === 'letting_go' ? '흘려보낸 것들' : '보관 중'}
+              {t === 'letting_go' ? '흘려보낸 것들' : '아쉬운 것들'}
             </button>
           ))}
         </div>
