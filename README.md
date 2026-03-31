@@ -10,7 +10,7 @@
 | Backend  | Express, Prisma, PostgreSQL 16, Better-Auth, pino, helmet, express-rate-limit   |
 | Shared   | Zod 스키마 + 타입 (tsup으로 cjs/esm/dts 빌드)                                   |
 | 테스트   | Vitest (unit), Playwright (E2E)                                                 |
-| Infra    | Docker Compose, Oracle Cloud Ampere A1 (배포 예정)                              |
+| Infra    | Docker Compose, Railway                                                         |
 
 ## 시작하기
 

@@ -11,6 +11,17 @@ const lora = Lora({ subsets: ['latin'], variable: '--font-serif' })
 export const metadata: Metadata = {
   title: { default: 'Tin', template: '%s | Tin' },
   description: '잊었던 것, 버렸던 것에 대한 기록',
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: { url: '/apple-touch-icon.png' },
+    other: [
+      { rel: 'icon', url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { rel: 'icon', url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: 'Tin',
     description: '잊었던 것, 버렸던 것에 대한 기록',
