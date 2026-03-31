@@ -19,7 +19,6 @@ app.use(helmet())
 const corsOptions = {
   origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
   credentials: true,
-  exposedHeaders: ['set-auth-token'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }
 
