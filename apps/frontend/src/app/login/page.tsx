@@ -2,11 +2,12 @@
 
 import { Suspense, useState } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginSchema, type LoginInput } from '@tin/shared'
 import { authClient } from '@/lib/auth-client'
+import { getAuthErrorMessage } from '@/lib/auth-errors'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { FormField } from '@/components/form-field'
@@ -20,7 +21,6 @@ export default function LoginPage() {
 }
 
 function LoginForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [serverError, setServerError] = useState<string | null>(null)
 
@@ -47,7 +47,7 @@ function LoginForm() {
         },
       )
       if (result.error || !result.data) {
-        setServerError(result.error?.message ?? '로그인에 실패했습니다.')
+        setServerError(getAuthErrorMessage(result.error?.code, '로그인에 실패했습니다.'))
         return
       }
       const next = searchParams.get('next')

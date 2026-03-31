@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 export const CreateTinSchema = z.object({
-  title: z.string().min(1).max(255),
-  givenUpAt: z.string().date(),
-  feeling: z.string().max(2000).optional(),
-  type: z.enum(['letting_go', 'reflection']),
+  title: z.string().min(1, '제목을 입력해주세요.').max(255, '제목은 255자 이하로 입력해주세요.'),
+  givenUpAt: z.string().date('날짜 형식이 올바르지 않습니다.'),
+  feeling: z.string().max(2000, '내용은 2000자 이하로 입력해주세요.').optional(),
+  type: z.enum(['letting_go', 'reflection'], { message: '유형을 선택해주세요.' }),
   tagIds: z.array(z.string().uuid()).optional(),
 })
 

@@ -21,7 +21,7 @@ test('앱 컴플리트 패스: 회원가입 → Tin 작성 → 확인 → 상세
   await page.getByTestId('new-tin-link').click()
   await expect(page).toHaveURL('/home/new')
   await page.getByTestId('type-letting_go').click()
-  await page.getByLabel('제목').fill('개발 공부 포기')
+  await page.getByLabel('제목').fill('테스트')
   await page.getByLabel('포기한 날짜').fill('2026-01-15')
   await page.getByTestId('create-tin-submit').click()
 
@@ -33,7 +33,7 @@ test('앱 컴플리트 패스: 회원가입 → Tin 작성 → 확인 → 상세
   // 5. 상세 진입
   await page.getByTestId('tin-card').first().click()
   await expect(page).toHaveURL(/\/home\/.+/)
-  await expect(page.getByText('개발 공부 포기')).toBeVisible()
+  await expect(page.getByText('테스트')).toBeVisible()
 
   // 6. 로그아웃
   await page.getByTestId('logout-button').click()

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { RegisterSchema } from '@tin/shared'
 import { authClient } from '@/lib/auth-client'
+import { getAuthErrorMessage } from '@/lib/auth-errors'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -44,7 +45,7 @@ export default function RegisterPage() {
         },
       )
       if (result.error) {
-        setServerError(result.error.message ?? '회원가입에 실패했습니다.')
+        setServerError(getAuthErrorMessage(result.error.code, '회원가입에 실패했습니다.'))
         return
       }
       window.location.href = '/home'
