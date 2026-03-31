@@ -47,9 +47,12 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
             Tin
           </Link>
           <div className="flex items-center gap-1">
-            <span className="hidden text-sm text-muted-foreground sm:block mr-2">
+            <Link
+              href="/home/profile"
+              className="hidden text-sm text-muted-foreground hover:text-foreground sm:block mr-2"
+            >
               {session?.user.name}
-            </span>
+            </Link>
             <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="로그아웃">
               <LogOut />

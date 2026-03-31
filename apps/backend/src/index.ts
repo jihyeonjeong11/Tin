@@ -10,6 +10,7 @@ import { logger } from './lib/logger.js'
 import { auth } from './lib/auth.js'
 import tinsRouter from './routes/tins.js'
 import tagsRouter from './routes/tags.js'
+import meRouter from './routes/me.js'
 
 const app: express.Express = express()
 const PORT = process.env.PORT ?? 4000
@@ -51,6 +52,7 @@ app.use(limiter)
 // API v1 routes
 app.use('/api/v1/tins', tinsRouter)
 app.use('/api/v1/tags', tagsRouter)
+app.use('/api/v1/me', meRouter)
 
 // Root
 app.get('/', (_req, res) => {
