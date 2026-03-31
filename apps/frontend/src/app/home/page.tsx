@@ -12,7 +12,7 @@ import { TinListSkeleton } from '@/components/tin-list-skeleton'
 import type { TinType } from '@tin/shared'
 
 export default function HomePage() {
-  const [tab, setTab] = useState<TinType>('letting_go')
+  const [tab, setTab] = useState<TinType>('reflection')
   const { data: tins = [], isLoading } = useTins(tab)
 
   return (
