@@ -7,6 +7,7 @@ export function TinCard({ tin }: { tin: TinResponse }) {
   return (
     <Link
       href={`/home/${tin.id}`}
+      data-testid="tin-card"
       className="group flex flex-col gap-2 rounded-xl border border-border p-4 transition-colors hover:border-primary/30 hover:bg-muted/30"
     >
       <div className="flex items-start justify-between gap-2">

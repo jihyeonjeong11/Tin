@@ -24,6 +24,7 @@ export default function HomePage() {
             <button
               key={t}
               onClick={() => setTab(t)}
+              data-testid={`tab-${t}`}
               className={cn(
                 'rounded-md px-3 py-1.5 text-sm transition-colors',
                 tab === t
@@ -36,7 +37,11 @@ export default function HomePage() {
           ))}
         </div>
 
-        <Link href="/home/new" className={cn(buttonVariants({ size: 'sm' }), 'gap-1.5')}>
+        <Link
+          href="/home/new"
+          className={cn(buttonVariants({ size: 'sm' }), 'gap-1.5')}
+          data-testid="new-tin-link"
+        >
           <Plus className="size-3.5" />새 Tin
         </Link>
       </div>

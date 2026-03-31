@@ -54,7 +54,13 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
               {session?.user.name}
             </Link>
             <ThemeToggle />
-            <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="로그아웃">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleSignOut}
+              aria-label="로그아웃"
+              data-testid="logout-button"
+            >
               <LogOut />
             </Button>
           </div>

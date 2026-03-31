@@ -22,6 +22,7 @@ export function TypeCard({
     <button
       type="button"
       onClick={() => onSelect(type)}
+      data-testid={`type-${type}`}
       className={cn(
         'flex flex-col gap-2 rounded-xl border p-4 text-left transition-colors',
         selected

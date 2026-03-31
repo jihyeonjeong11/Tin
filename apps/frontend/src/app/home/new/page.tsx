@@ -120,7 +120,11 @@ export default function NewTinPage() {
             <Button type="button" variant="ghost" onClick={() => router.back()}>
               취소
             </Button>
-            <Button type="submit" disabled={isSubmitting || !tinType}>
+            <Button
+              type="submit"
+              disabled={isSubmitting || !tinType}
+              data-testid="create-tin-submit"
+            >
               {createTin.isPending ? '저장 중…' : '기록하기'}
             </Button>
           </div>

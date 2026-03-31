@@ -147,7 +147,13 @@ export default function RegisterPage() {
             </p>
           )}
 
-          <Button type="submit" size="lg" disabled={isSubmitting} className="mt-2 w-full">
+          <Button
+            type="submit"
+            size="lg"
+            disabled={isSubmitting}
+            className="mt-2 w-full"
+            data-testid="register-submit"
+          >
             {isSubmitting ? '가입 중…' : '시작하기'}
           </Button>
         </form>
