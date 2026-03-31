@@ -52,19 +52,19 @@ export default function NewTinPage() {
             <label className="text-sm font-medium text-foreground">어떤 기록인가요?</label>
             <div className="grid grid-cols-2 gap-3">
               <TypeCard
+                type="reflection"
+                label="아쉬운 것"
+                sub="다시 보고 싶은 것"
+                icon={Feather}
+                selected={tinType === 'reflection'}
+                onSelect={handleTypeSelect}
+              />
+              <TypeCard
                 type="letting_go"
                 label="놓아버림"
                 sub="버리기로 한 것"
                 icon={Archive}
                 selected={tinType === 'letting_go'}
-                onSelect={handleTypeSelect}
-              />
-              <TypeCard
-                type="reflection"
-                label="돌아봄"
-                sub="다시 보고 싶은 것"
-                icon={Feather}
-                selected={tinType === 'reflection'}
                 onSelect={handleTypeSelect}
               />
             </div>

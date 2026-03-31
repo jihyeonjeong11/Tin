@@ -41,15 +41,15 @@ function Hero() {
       </Badge>
 
       <h1 className="font-serif text-5xl leading-tight text-foreground sm:text-6xl md:text-7xl">
-        잊어도 괜찮아,
+        잊었지만,
         <br />
-        <span className="text-primary">기록했으니까</span>
+        <span className="text-primary">다시 보고 싶을 때.</span>
       </h1>
 
       <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
-        놓아버리고 싶은 것들, 가끔 돌아보고 싶은 순간들.
+        돌아보고 싶은 순간들, 놓아버리고 싶은 기억들.
         <br />
-        마음 속에만 담아두지 않아도 됩니다.
+        다시 꺼내보고 싶을 때.
       </p>
 
       <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
@@ -104,7 +104,7 @@ const steps = [
     icon: Archive,
     step: '03',
     title: '흘려보낸다',
-    description: '충분히 봤다면 아카이브합니다. 없애는 게 아니라 놓아주는 것.',
+    description: '부담이 된다면, 그냥 놓아 버리세요.',
   },
 ]
 
@@ -148,6 +148,17 @@ function TinTypes() {
       </p>
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2">
+        {/* Reflection */}
+        <div className="tin-reflection rounded-xl border border-border p-8">
+          <p className="text-xs tracking-widest text-muted-foreground">REFLECTION</p>
+          <h3 className="mt-3 font-serif text-2xl text-foreground">돌아봄</h3>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            다시 한번 마주하고 싶은 순간들. 잘했던 것, 못했던 것, 배운 것. 꺼내볼수록 나를 더 알게
+            됩니다.
+          </p>
+          <div className="mt-6 h-px w-8 bg-border" />
+          <p className="mt-4 text-xs text-muted-foreground">예: "첫 직장에서 배운 것들"</p>
+        </div>
         {/* Letting Go */}
         <div className="tin-letting-go rounded-xl border border-border p-8">
           <p className="text-xs tracking-widest text-muted-foreground">LETTING GO</p>
@@ -160,18 +171,6 @@ function TinTypes() {
           <p className="mt-4 text-xs text-muted-foreground">
             예: "매일 새벽 5시에 일어나겠다는 다짐"
           </p>
-        </div>
-
-        {/* Reflection */}
-        <div className="tin-reflection rounded-xl border border-border p-8">
-          <p className="text-xs tracking-widest text-muted-foreground">REFLECTION</p>
-          <h3 className="mt-3 font-serif text-2xl text-foreground">돌아봄</h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            다시 한번 마주하고 싶은 순간들. 잘했던 것, 못했던 것, 배운 것. 꺼내볼수록 나를 더 알게
-            됩니다.
-          </p>
-          <div className="mt-6 h-px w-8 bg-border" />
-          <p className="mt-4 text-xs text-muted-foreground">예: "첫 직장에서 배운 것들"</p>
         </div>
       </div>
     </section>
