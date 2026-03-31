@@ -51,7 +51,7 @@ function LoginForm() {
         return
       }
       const next = searchParams.get('next')
-      router.push(next?.startsWith('/') ? next : '/home')
+      window.location.href = next?.startsWith('/') ? next : '/home'
     } catch {
       setServerError('서버에 연결할 수 없어요')
     }

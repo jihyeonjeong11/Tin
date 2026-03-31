@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -19,7 +18,6 @@ const RegisterFormSchema = RegisterSchema.extend({
 type RegisterFormInput = z.infer<typeof RegisterFormSchema>
 
 export default function RegisterPage() {
-  const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
 
   const {
@@ -49,7 +47,7 @@ export default function RegisterPage() {
         setServerError(result.error.message ?? '회원가입에 실패했습니다.')
         return
       }
-      router.push('/home')
+      window.location.href = '/home'
     } catch {
       setServerError('서버에 연결할 수 없어요')
     }

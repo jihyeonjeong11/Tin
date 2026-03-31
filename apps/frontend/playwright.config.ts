@@ -11,9 +11,16 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
-  webServer: {
-    command: 'pnpm dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: 'pnpm dev',
+      url: 'http://localhost:3000',
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'pnpm --filter backend dev',
+      url: 'http://localhost:4000/health',
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 })
