@@ -5,7 +5,7 @@
 
 */
 -- DropIndex
-DROP INDEX "tins_user_id_status_idx";
+DROP INDEX IF EXISTS "tins_user_id_status_idx";
 
 -- AlterTable
 ALTER TABLE "tins" DROP COLUMN "status";
