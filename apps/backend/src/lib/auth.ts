@@ -16,5 +16,7 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24, // refresh if 1 day old
   },
   trustedOrigins: [process.env.FRONTEND_URL ?? 'http://localhost:3000'],
+  // bearer(): 커스텀 도메인 없는 환경(Railway 기본 URL 등)에서 크로스 도메인 쿠키 차단 시
+  //           Bearer 토큰 인증을 fallback으로 지원합니다. 쿠키 환경에서도 영향 없습니다.
   plugins: [bearer(), admin()],
 })

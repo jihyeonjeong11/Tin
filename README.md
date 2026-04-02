@@ -2,7 +2,18 @@
 
 ## Known Issues
 
-- Railway로 배포중이며, 현재 커스텀 도메인을 사용하지 않아 [Railway issue](https://station.railway.com/questions/cross-domain-cookies-on-preview-65c2b01e) 이슈로 인해 인증 토큰을 localStorage에 담아 사용하는 보안 리스크가 있습니다.
+### 인증 전략 — 두 가지 케이스
+
+Railway 기본 URL 환경에서는 프론트와 백엔드가 서로 다른 도메인(`*.up.railway.app`)에 배포되어 크로스 도메인 쿠키가 차단됩니다. ([Railway issue](https://station.railway.com/questions/cross-domain-cookies-on-preview-65c2b01e))
+
+이 템플릿은 두 케이스를 모두 지원하며, `apps/frontend/src/lib/api.ts`와 `auth-client.ts`에 전환 방법이 주석으로 안내되어 있습니다.
+
+| 환경                    | 인증 방식                       | 변경 필요 여부                |
+| ----------------------- | ------------------------------- | ----------------------------- |
+| 커스텀 도메인 (권장)    | better-auth httpOnly 세션 쿠키  | `fetchOptions.auth` 설정 제거 |
+| Railway 기본 URL (현재) | Bearer 토큰 → localStorage 저장 | 그대로 사용                   |
+
+> **보안 참고:** localStorage 방식은 XSS에 취약합니다. 프로덕션에서는 커스텀 도메인 + 쿠키 방식을 사용하세요.
 
 # Tin
 
@@ -23,6 +34,7 @@
 ## Features
 
 - Better auth 인증
+- Better auth 어드민
 - ShadCN
 - Tailwind CSS
 - Prisma ORM

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, container } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { TinListSkeleton } from '@/components/tin-list-skeleton'
 
 describe('TinListSkeleton', () => {

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { authClient } from '@/lib/auth-client'
+
 import {
   Table,
   TableBody,
@@ -22,7 +23,7 @@ type AdminUser = {
   email: string
   role: string | null
   banned: boolean | null
-  createdAt: string
+  createdAt: Date
 }
 
 export default function AdminPage() {

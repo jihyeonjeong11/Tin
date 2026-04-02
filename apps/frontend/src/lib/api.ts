@@ -11,6 +11,17 @@ export const api = axios.create({
   },
 })
 
+// AUTH STRATEGY (두 가지 케이스)
+//
+// [Case 1] 커스텀 도메인 환경 (권장)
+//   프론트와 백엔드가 같은 도메인 하위 (예: app.yourdomain.com / api.yourdomain.com)일 때,
+//   better-auth가 설정하는 httpOnly 세션 쿠키가 자동으로 전송됩니다.
+//   이 경우 아래 Bearer 토큰 로직은 불필요하며, withCredentials: true 만으로 동작합니다.
+//
+// [Case 2] Railway 기본 URL 환경 (현재)
+//   프론트(*.up.railway.app)와 백엔드(*.up.railway.app)가 서로 다른 도메인이라
+//   크로스 도메인 쿠키가 차단됩니다. (참고: https://station.railway.com/questions/cross-domain-cookies-on-preview-65c2b01e)
+//   이를 우회하기 위해 로그인 시 발급된 Bearer 토큰을 localStorage에 저장해 사용합니다.
 api.interceptors.request.use((config) => {
   const token = typeof localStorage !== 'undefined' ? localStorage.getItem('bearer_token') : null
   if (token) {
