@@ -1,22 +1,42 @@
+이 SASS 템플릿 프로젝트는 Monorepo(Express + Nextjs)를 Agentic Coding을 통해 실제 배포까지 진행하기 위한 프로젝트입니다.
+
+## Known Issues
+
+- Railway로 배포중이며, 현재 커스텀 도메인을 사용하지 않아 [Railway issue](https://station.railway.com/questions/cross-domain-cookies-on-preview-65c2b01e) 이슈로 인해 인증 토큰을 localStorage에 담아 사용하는 보안 리스크가 있습니다.
+
 # Tin
 
-> 살아가면서 잊었던 것, 버렸던 것을 기록하고 반성하는 마음 챙김 노트 앱
+> 살아가면서 흘려보낸 것, 돌아보고 싶은 것을 기록하는 마음 챙김 노트 앱
+
+[스크린샷 추가]
 
 ## 기술 스택
 
 |          | 기술                                                                            |
 | -------- | ------------------------------------------------------------------------------- |
 | Frontend | Next.js 16, React 19, TailwindCSS v4, shadcn/ui, TanStack Query v5, Better-Auth |
-| Backend  | Express, Prisma, PostgreSQL 16, Better-Auth, pino, helmet, express-rate-limit   |
-| Shared   | Zod 스키마 + 타입 (tsup으로 cjs/esm/dts 빌드)                                   |
-| 테스트   | Vitest (unit), Playwright (E2E)                                                 |
-| Infra    | Docker Compose, Railway                                                         |
+| Backend  | Express 5, Prisma, PostgreSQL 16, Better-Auth, pino, helmet, express-rate-limit |
+| 공유     | Zod 스키마 + 타입 (`@tin/shared`, tsup으로 cjs/esm/dts 빌드)                    |
+| 테스트   | Vitest (유닛), Playwright (E2E)                                                 |
+| 인프라   | Docker Compose, Railway                                                         |
+
+## Features
+
+- Better auth 인증
+- ShadCN
+- Tailwind CSS
+- Prisma ORM
+- Light / Dark mode
+
+## ENV
+
+[[추가]]
 
 ## 시작하기
 
 ### 사전 요구사항
 
-- Node.js 22+
+- Node.js 22
 - pnpm 9+
 - Docker Desktop
 
@@ -59,7 +79,7 @@ pnpm lint             # ESLint
 pnpm typecheck        # TypeScript 검사
 
 # 테스트
-pnpm test             # 전체 유닛 테스트 (Vitest)
+pnpm test:all         # 전체 유닛 테스트 (Vitest)
 pnpm test:fe          # 프론트엔드 유닛 테스트
 pnpm test:be          # 백엔드 유닛 테스트
 pnpm test:e2e         # E2E 테스트 (Playwright)
@@ -67,6 +87,7 @@ pnpm test:e2e         # E2E 테스트 (Playwright)
 # DB
 pnpm docker:up        # PostgreSQL 컨테이너 실행
 pnpm docker:down      # 컨테이너 종료
+pnpm docker:logs      # 컨테이너 로그 확인
 pnpm db:migrate       # 마이그레이션 실행
 pnpm db:studio        # Prisma Studio (DB GUI)
 pnpm db:seed          # 개발용 더미 데이터 삽입
@@ -80,17 +101,16 @@ tin/
 │   ├── frontend/            # Next.js 16 App Router
 │   │   ├── src/app/         # 페이지 (/, /login, /register, /home/*)
 │   │   ├── src/components/  # UI 컴포넌트
-│   │   ├── src/hooks/       # TanStack Query 훅 (use-tins, use-tags)
+│   │   ├── src/hooks/       # TanStack Query 훅 (use-tins)
 │   │   ├── src/lib/         # axios 인스턴스, auth 클라이언트 등
 │   │   └── e2e/             # Playwright E2E 시나리오
-│   └── backend/             # Express API
+│   └── backend/             # Express 5 API
 │       └── src/
-│           ├── routes/      # tins, tags 라우터 (+ 유닛 테스트)
+│           ├── routes/      # tins, tags, me 라우터 (+ 유닛 테스트)
 │           ├── middleware/  # requireAuth, validate
 │           └── lib/         # prisma, auth, logger, env
 ├── packages/
 │   └── shared/              # 공통 Zod 스키마 및 타입
-│       └── src/             # RegisterSchema, LoginSchema, Tin/Tag 스키마
 └── docker-compose.yml
 ```
 
@@ -120,4 +140,4 @@ User ─┬─< Tin ─< TinTag >─ Tag
 
 - **Tin** — 기록 본체. `type`: `letting_go`(놓아버림) | `reflection`(돌아봄), `status`: `pending`(보관 중) | `archived`(흘려보냄)
 - **Tag** — 유저별 커스텀 태그. 이름은 유저 내 unique
-- 인증 — Better-Auth (email + password). 세션은 PostgreSQL에 저장 (Redis 미사용)
+- **인증** — Better-Auth (email + password). 세션은 PostgreSQL에 저장

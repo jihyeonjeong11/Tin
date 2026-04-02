@@ -1,4 +1,5 @@
 import { createAuthClient } from 'better-auth/react'
+import { adminClient } from 'better-auth/client/plugins'
 
 // Export authClient directly — destructuring individual methods causes
 // pnpm type portability errors due to better-auth's complex return types.
@@ -12,4 +13,5 @@ export const authClient = createAuthClient({
         typeof localStorage !== 'undefined' ? (localStorage.getItem('bearer_token') ?? '') : '',
     },
   },
+  plugins: [adminClient()],
 })

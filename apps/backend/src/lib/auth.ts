@@ -1,5 +1,5 @@
 import { betterAuth } from 'better-auth'
-import { bearer } from 'better-auth/plugins'
+import { bearer, admin } from 'better-auth/plugins'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { prisma } from './prisma.js'
 
@@ -16,5 +16,5 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24, // refresh if 1 day old
   },
   trustedOrigins: [process.env.FRONTEND_URL ?? 'http://localhost:3000'],
-  plugins: [bearer()],
+  plugins: [bearer(), admin()],
 })

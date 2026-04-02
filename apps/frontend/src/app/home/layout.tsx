@@ -47,6 +47,14 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
             Tin
           </Link>
           <div className="flex items-center gap-1">
+            {session?.user.role === 'admin' && (
+              <Link
+                href="/admin"
+                className="hidden text-sm text-muted-foreground hover:text-foreground sm:block mr-2"
+              >
+                어드민
+              </Link>
+            )}
             <Link
               href="/home/profile"
               className="hidden text-sm text-muted-foreground hover:text-foreground sm:block mr-2"
