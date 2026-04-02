@@ -4,6 +4,17 @@ import { auth } from '../src/lib/auth.js'
 const prisma = new PrismaClient()
 
 async function main() {
+  // 어드민 계정 생성
+  const adminEmail = process.env.ADMIN_EMAIL
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (!adminEmail || !adminPassword) {
+    throw new Error('ADMIN_EMAIL과 ADMIN_PASSWORD 환경변수를 설정해주세요')
+  }
+  await auth.api.signUpEmail({
+    body: { name: '관리자', email: adminEmail, password: adminPassword },
+  })
+  await prisma.user.update({ where: { email: adminEmail }, data: { role: 'admin' } })
+
   // 테스트 유저 생성
   await auth.api.signUpEmail({
     body: {
@@ -60,7 +71,7 @@ async function main() {
     })
   }
 
-  console.log('✅ Seed 완료 — test@tin.dev / password123')
+  console.log(`✅ Seed 완료 — 어드민: ${adminEmail} / 테스트: test@tin.dev / password123`)
 }
 
 main()
