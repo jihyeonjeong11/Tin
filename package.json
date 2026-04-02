@@ -31,7 +31,8 @@
     "prepare": "husky"
   },
   "engines": {
-    "node": ">=22 <23"
+    "node": ">=22 <23",
+    "pnpm": ">=10"
   },
   "dependencies": {
     "zod": "^3.24.2"
